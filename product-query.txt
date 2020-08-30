@@ -34,6 +34,7 @@ CREATE TABLE vendor(
   address varchar(255) NOT NULL,
   PRIMARY KEY (id)
 );
+ALTER TABLE vendor MODIFY  COLUMN mobile_no bigint(10);
 CREATE TABLE product(
 id int NOT NULL AUTO_INCREMENT,
 name varchar(255) NOT NULL,
