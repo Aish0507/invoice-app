@@ -3,7 +3,8 @@ const bodyParser = require('body-parser');
 const dbConfig = require('./dbConfig');
 const userRouter = require('./app-middlewares/user');
 const authRouter = require('./app-middlewares/auth');
-
+const productRouter = require('./app-middlewares/product');
+const vendorRouter = require('./app-middlewares/vendor');
 const app = express();
 const port = 3000;
 
@@ -35,5 +36,7 @@ app.get('/list', async (req, res) => {
 
 app.use('/user', userRouter);
 app.use('/auth', authRouter);
+app.use('/product', productRouter);
+app.use('/vendor', vendorRouter);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
