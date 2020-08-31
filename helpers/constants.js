@@ -6,3 +6,5 @@ function define(name, value) {
 }
 define("HOSTNAME", 'localhost');
 define("PORT", '3000');
+define("PAGE_LIMIT", '10');
+define("PAGE_NO", '1');

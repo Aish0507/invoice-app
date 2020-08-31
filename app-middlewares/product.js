@@ -6,6 +6,9 @@ const create = require('../crud/create');
 const { error, success } = require('../helpers/responseapi');
 const query = require('../helpers/query');
 const performRequest = require("../helpers/perform-internal-request");
+const listQuery = require('../query-builders/product-query');
+const totalCountQuery = require('../query-builders/total-count');
+const constants = require("../helpers/constants");
 router.post('/create', async (req, res) => {
     const { name, price_per_unit, gst_percentage,
         basic_unit, limited, in_stock, active_for_sale, vendor_id } = req.body;
@@ -60,6 +63,22 @@ router.post('/update', async (req, res) => {
     } else {
         res.status(404).json(error("User not found", res.statusCode));
     }
+});
+router.get('/list', async (req, res) => {
+    const conn = await connection(dbConfig).catch(e => { });
+    const limit = req.query.limit || constants.PAGE_LIMIT;
+    const page = req.query.page || constants.PAGE_NO
+    const offset = (page - 1) * limit
+    const list = await query(conn, listQuery({ limit, offset }))
+    const totalCount = await query(conn, totalCountQuery('product'))
+    res
+        .status(201)
+        .json(success("OK", {
+            data: [...list],
+            'page_count': list.length,
+            'page_number': page,
+            'total_count': totalCount[0].TotalCount
+        }, res.statusCode));
 });
 
 module.exports = router;
