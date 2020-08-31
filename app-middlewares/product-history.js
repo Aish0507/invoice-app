@@ -20,7 +20,7 @@ router.post('/create', async (req, res) => {
         [name, price_per_unit, gst_percentage,
             basic_unit, limited, in_stock, active_for_sale, p_id]
     ).catch(e => {
-        res.status(500).json(error("Something went wrong", res.statusCode));
+        res.status(500).json(error("Something went wrong [catch]", res.statusCode));
     })
     if (result) {
         const [product = {}] = result;
