@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ProductListComponent implements OnInit {
   productList: Product[];
-
+  productSearch: any;
   constructor(private eventService: EventService,
     private productService: ProductService,
     private tostr: ToastrService) { }
@@ -21,14 +21,26 @@ export class ProductListComponent implements OnInit {
       this.productList = this.productService.getProducts();
     });
     this.eventService.subscribe('updateProduct', (category) => {
-      this.productList = this.productService.getProducts();
+      // this.productList = this.productService.getProducts();
+      this.productList = this.productList.filter(data => {
+        if (data.$key === category.$key) {
+          data.name = category.name;
+          data.location = category.location;
+          data.price = category.price;
+          data.categoryS = category.categoryS;
+        }
+        return data;
+      })
     });
   }
   onEdit(product: Product) {
     this.productService.selectedProduct = Object.assign({}, product);
   }
   onDelete($key: string) {
-    this.tostr.success('Successs', 'Invoice Deleted');
+    this.productList = this.productList.filter(data => data.$key !== $key);
+    this.productService.deleteProduct($key);
+    this.eventService.broadcast('deleteProduct', $key);
+    this.tostr.success('Successs', 'Product Deleted');
   }
 
 }

@@ -43,7 +43,7 @@ export class ProductComponent implements OnInit {
       this.productService.insertProduct(productForm.value);
     } else {
       this.eventService.broadcast('updateProduct', productForm.value);
-      this.productService.insertProduct(productForm.value);
+      //  this.productService.insertProduct(productForm.value);
     }
     this.resetForm(productForm);
   }

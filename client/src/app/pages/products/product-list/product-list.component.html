@@ -1,16 +1,24 @@
 <div class="card mt-5">
     <div class="card-body">
         <h6 class="text-center">List of Products</h6>
-        <table class="table table-sm table-hover">
+        <input type="text" *ngIf="productList && productList.length > 0" name="name" class="mb-2 form-control"
+            #name="ngModel" [(ngModel)]="productSearch" placeholder="Search">
+        <table class="table table-sm table-hover" *ngIf="productList && productList.length > 0">
+            <thead>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Location</th>
+                <th>Action</th>
+            </thead>
             <tbody>
                 <tr *ngFor="let product of productList">
                     <td>{{product.name}}</td>
                     <td>{{product.price}}</td>
+                    <td>{{product.location}}</td>
                     <td>
-                        <a class="btn btn-secondary text-white" (click)="onEdit(product)"><i class="far fa-edit"></i>
+                        <a class="btn btn-secondary text-white mr-2" (click)="onEdit(product)">
+                            <i class="far fa-edit"></i>
                         </a>
-                    </td>
-                    <td>
                         <a class="btn btn-danger text-white" (click)="onDelete(product.$key)">
                             <i class="fas fa-trash-alt"></i>
                         </a>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Category } from '../../../models/category';
 import { EventService } from '../../../services/event.service';
 import { CategoryService } from '../../../services/category.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-category-list',
@@ -12,7 +13,8 @@ export class CategoryListComponent implements OnInit {
   categoryList: Category[] = [];
 
   constructor(private eventService: EventService,
-    private categoryService: CategoryService) { }
+    private categoryService: CategoryService,
+    private tostr: ToastrService) { }
 
   ngOnInit(): void {
     this.eventService.subscribe('addCategory', (category) => {
@@ -26,14 +28,14 @@ export class CategoryListComponent implements OnInit {
     });
     this.eventService.subscribe('updateCategory', (category) => {
       // TODO - API call
-      // this.categoryList = this.categoryList.filter(data => {
-      //   if (data.$key === category.$key) {
-      //     data.name = category.name;
-      //     data.description = category.description;
-      //   }
-      //   return data;
-      // })
-      this.categoryList = this.categoryService.getCategories();
+      this.categoryList = this.categoryList.filter(data => {
+        if (data.$key === category.$key) {
+          data.name = category.name;
+          data.description = category.description;
+        }
+        return data;
+      })
+      // this.categoryList = this.categoryService.getCategories();
     });
     this.categoryList = this.categoryService.getCategories();
   }
@@ -43,5 +45,6 @@ export class CategoryListComponent implements OnInit {
 
   onDelete($key: string) {
     this.categoryList = this.categoryList.filter(data => data.$key !== $key);
+    this.tostr.success('Successs', 'Category Deleted');
   }
 }

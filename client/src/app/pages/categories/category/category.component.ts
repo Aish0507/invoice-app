@@ -22,7 +22,7 @@ export class CategoryComponent implements OnInit {
     }
     else {
       this.eventService.broadcast('updateCategory', categoryForm.value);
-      this.categoryService.insertCategory(categoryForm.value);
+      // this.categoryService.insertCategory(categoryForm.value);
     }
     this.resetForm(categoryForm);
   }

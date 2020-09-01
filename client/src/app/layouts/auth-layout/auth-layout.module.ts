@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthLayoutRoutes } from './auth-layout.routing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from '../../pages/login/login.component';
 
 @NgModule({
   imports: [
@@ -14,6 +15,8 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     NgbModule
   ],
-  declarations: []
+  declarations: [
+    LoginComponent
+  ]
 })
 export class AuthLayoutModule { }

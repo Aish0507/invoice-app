@@ -4,11 +4,12 @@ import { Category } from '../models/category';
   providedIn: 'root'
 })
 export class CategoryService {
-  categoryList: any = [];
+  categoryList: Category[] = [];
   selectedCategory: Category = new Category();
   constructor() { }
   insertCategory(category: Category) {
     this.categoryList.push({
+      $key: Math.floor(Math.random() * 101),
       name: category.name,
       description: category.description
     });

@@ -5,7 +5,7 @@ import { Product } from '../models';
   providedIn: 'root'
 })
 export class ProductService {
-  productList: any = [];
+  productList: Product[] = [];
   selectedProduct: Product = new Product();
   constructor() { }
   getProducts() {
@@ -13,10 +13,15 @@ export class ProductService {
   }
   insertProduct(product: Product) {
     this.productList.push({
+      $key: (Math.floor((Math.random() * 100) + 1)),
       name: product.name,
       location: product.location,
       price: product.price,
       categoryS: product.categoryS
     });
+  }
+  deleteProduct($key: string) {
+    this.productList = this.productList.filter(data => data.$key !== $key);
+    console.log(this.productList);
   }
 }
