@@ -15,6 +15,9 @@ import { ProductComponent } from '../../pages/products/product/product.component
 import { ProductListComponent } from '../../pages/products/product-list/product-list.component';
 import { ModalModule } from '@crystalui/angular-modal';
 import { InvoiceModalModule } from 'projects/invoice-modal/src/public-api';
+import { CustomersComponent } from '../../pages/customers/customers.component';
+import { CustomerComponent } from '../../pages/customers/customer/customer.component';
+import { CustomerListComponent } from '../../pages/customers/customer-list/customer-list.component';
 
 @NgModule({
   imports: [
@@ -32,7 +35,10 @@ import { InvoiceModalModule } from 'projects/invoice-modal/src/public-api';
     CategoryListComponent,
     ProductsComponent,
     ProductComponent,
-    ProductListComponent
+    ProductListComponent,
+    CustomersComponent,
+    CustomerComponent,
+    CustomerListComponent
   ],
   entryComponents: [
     ProductComponent,
