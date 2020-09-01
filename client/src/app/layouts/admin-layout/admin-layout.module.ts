@@ -1,20 +1,18 @@
-import { NgModule } from "@angular/core";
-import { HttpClientModule } from "@angular/common/http";
-import { RouterModule } from "@angular/router";
-import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
+import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
-import { AdminLayoutRoutes } from "./admin-layout.routing";
-import { DashboardComponent } from "../../pages/dashboard/dashboard.component";
-import { IconsComponent } from "../../pages/icons/icons.component";
-import { MapComponent } from "../../pages/map/map.component";
-import { NotificationsComponent } from "../../pages/notifications/notifications.component";
-import { UserComponent } from "../../pages/user/user.component";
-import { TablesComponent } from "../../pages/tables/tables.component";
-import { InvoiceComponent } from "../../pages/typography/typography.component";
-// import { RtlComponent } from "../../pages/rtl/rtl.component";
-
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { AdminLayoutRoutes } from './admin-layout.routing';
+import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CategoriesComponent } from '../../pages/categories/categories.component';
+import { CategoryComponent } from '../../pages/categories/category/category.component';
+import { CategoryListComponent } from '../../pages/categories/category-list/category-list.component';
+import { ProductsComponent } from '../../pages/products/products.component';
+import { ProductComponent } from '../../pages/products/product/product.component';
+import { ProductListComponent } from '../../pages/products/product-list/product-list.component';
 
 @NgModule({
   imports: [
@@ -26,13 +24,12 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
   ],
   declarations: [
     DashboardComponent,
-    UserComponent,
-    TablesComponent,
-    IconsComponent,
-    InvoiceComponent,
-    NotificationsComponent,
-    MapComponent,
-    // RtlComponent
+    CategoriesComponent,
+    CategoryComponent,
+    CategoryListComponent,
+    ProductsComponent,
+    ProductComponent,
+    ProductListComponent
   ]
 })
 export class AdminLayoutModule { }

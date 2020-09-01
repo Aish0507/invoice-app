@@ -15,7 +15,13 @@ export const ROUTES: RouteInfo[] = [
   },
   {
     path: '/invoice',
-    title: 'Invoice',
+    title: 'Invoices',
+    icon: 'icon-align-center',
+    class: ' '
+  },
+  {
+    path: '/invoices-list',
+    title: 'Invoice List',
     icon: 'icon-align-center',
     class: ' '
   },
@@ -26,8 +32,14 @@ export const ROUTES: RouteInfo[] = [
     class: ' '
   },
   {
-    path: '/user',
-    title: 'User Profile',
+    path: '/customers',
+    title: 'customers',
+    icon: 'icon-single-02',
+    class: ' '
+  },
+  {
+    path: '/categories',
+    title: 'Categories',
     icon: 'icon-single-02',
     class: ' '
   }
