@@ -17,6 +17,12 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "invoice-modal": [
+        "dist/invoice-modal/invoice-modal",
+        "dist/invoice-modal"
+      ]
+    }
   }
 }

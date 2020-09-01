@@ -19,5 +19,8 @@ export class CategoryService {
 
   deleteCategory($key: string) {
   }
+  getCategories() {
+    return this.categoryList; // TODO - API Call
+  }
 
 }

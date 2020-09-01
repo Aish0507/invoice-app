@@ -13,6 +13,8 @@ import { CategoryListComponent } from '../../pages/categories/category-list/cate
 import { ProductsComponent } from '../../pages/products/products.component';
 import { ProductComponent } from '../../pages/products/product/product.component';
 import { ProductListComponent } from '../../pages/products/product-list/product-list.component';
+import { ModalModule } from '@crystalui/angular-modal';
+import { InvoiceModalModule } from 'projects/invoice-modal/src/public-api';
 
 @NgModule({
   imports: [
@@ -21,6 +23,7 @@ import { ProductListComponent } from '../../pages/products/product-list/product-
     FormsModule,
     HttpClientModule,
     NgbModule,
+    InvoiceModalModule
   ],
   declarations: [
     DashboardComponent,
@@ -30,6 +33,10 @@ import { ProductListComponent } from '../../pages/products/product-list/product-
     ProductsComponent,
     ProductComponent,
     ProductListComponent
+  ],
+  entryComponents: [
+    ProductComponent,
+    CategoryComponent
   ]
 })
 export class AdminLayoutModule { }

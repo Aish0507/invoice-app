@@ -16,21 +16,26 @@ export class CategoryListComponent implements OnInit {
 
   ngOnInit(): void {
     this.eventService.subscribe('addCategory', (category) => {
-      this.categoryList.push({
-        $key: (Math.floor((Math.random() * 100) + 1)),
-        name: category.name,
-        description: category.description
-      });
+      // TODO - API call
+      // this.categoryList.push({
+      //   $key: (Math.floor((Math.random() * 100) + 1)),
+      //   name: category.name,
+      //   description: category.description
+      // });
+      this.categoryList = this.categoryService.getCategories();
     });
     this.eventService.subscribe('updateCategory', (category) => {
-      this.categoryList = this.categoryList.filter(data => {
-        if (data.$key === category.$key) {
-          data.name = category.name;
-          data.description = category.description;
-        }
-        return data;
-      })
+      // TODO - API call
+      // this.categoryList = this.categoryList.filter(data => {
+      //   if (data.$key === category.$key) {
+      //     data.name = category.name;
+      //     data.description = category.description;
+      //   }
+      //   return data;
+      // })
+      this.categoryList = this.categoryService.getCategories();
     });
+    this.categoryList = this.categoryService.getCategories();
   }
   onEdit(category: Category) {
     this.categoryService.selectedCategory = Object.assign({}, category);

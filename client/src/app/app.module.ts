@@ -23,7 +23,13 @@ import { ComponentsModule } from './components/components.module';
     NgbModule,
     RouterModule,
     AppRoutingModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(
+      {
+        timeOut: 5000,
+        positionClass: 'toast-top-right',
+        preventDuplicates: false,
+      }
+    ),
   ],
   declarations: [
     AppComponent,
