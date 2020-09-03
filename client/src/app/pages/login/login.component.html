@@ -1,29 +1,17 @@
 <div class="container">
   <div class="row justify-content-center">
-    <div
-      class="col-lg-4 col-md-4 col-sm-6 col-lg-offset-4 col-md-offset-4 col-sm-offset-3 login"
-    >
-      <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-lg-offset-4 col-md-offset-4 col-sm-offset-3 login">
+      <form autocomplete="off" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
         <div class="card login-card">
           <div class="header text-center">Login</div>
           <div class="content">
             <div class="form-group">
-              <label>Email address</label
-              ><input
-                class="form-control"
-                placeholder="Enter email"
-                type="email"
-                [(ngModel)]="email"
-              />
+              <label>Email address</label><input class="form-control" placeholder="Enter email" type="email"
+                [(ngModel)]="email" name="email" />
             </div>
             <div class="form-group">
-              <label>Password</label
-              ><input
-                class="form-control"
-                placeholder="Password"
-                type="password"
-                [(ngModel)]="password"
-              />
+              <label>Password</label><input class="form-control" placeholder="Password" type="password"
+                [(ngModel)]="password" name="password" />
             </div>
           </div>
           <div class="text-center">

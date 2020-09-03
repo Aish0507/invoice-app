@@ -3,11 +3,16 @@ import { Routes } from '@angular/router';
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 import { CategoriesComponent } from '../../pages/categories/categories.component';
 import { ProductsComponent } from '../../pages/products/products.component';
-import { CustomersComponent } from 'src/app/pages/customers/customers.component';
+import { CustomersComponent } from '../../pages/customers/customers.component';
+import { InvoicesComponent } from '../../pages/invoices/invoices.component';
+import { InvoiceListComponent } from '../../pages/invoices/invoice-list/invoice-list.component';
+import { AuthGuard } from '../../auth.guard';
 
 export const AdminLayoutRoutes: Routes = [
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'categories', component: CategoriesComponent },
-  { path: 'product', component: ProductsComponent },
-  { path: 'customers', component: CustomersComponent },
+  { path: 'dashboard', canActivate: [AuthGuard], component: DashboardComponent },
+  { path: 'categories', canActivate: [AuthGuard], component: CategoriesComponent },
+  { path: 'product', canActivate: [AuthGuard], component: ProductsComponent },
+  { path: 'customers', canActivate: [AuthGuard], component: CustomersComponent },
+  { path: 'invoices', canActivate: [AuthGuard], component: InvoicesComponent },
+  { path: 'invoices-list', canActivate: [AuthGuard], component: InvoiceListComponent },
 ];

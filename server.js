@@ -9,11 +9,11 @@ const productHistoryRouter = require('./app-middlewares/product-history');
 const app = express();
 const port = 3000;
 
+app.use(bodyParser.json({ type: 'application/json' }));
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
 
 // parse various different custom JSON types as JSON
-app.use(bodyParser.json({ type: 'application/*+json' }));
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
