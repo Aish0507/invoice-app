@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Category } from '../../../models/category';
 import { EventService } from '../../../services/event.service';
 import { CategoryService } from '../../../services/category.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-category-list',
@@ -12,17 +13,21 @@ export class CategoryListComponent implements OnInit {
   categoryList: Category[] = [];
 
   constructor(private eventService: EventService,
-    private categoryService: CategoryService) { }
+    private categoryService: CategoryService,
+    private tostr: ToastrService) { }
 
   ngOnInit(): void {
     this.eventService.subscribe('addCategory', (category) => {
-      this.categoryList.push({
-        $key: (Math.floor((Math.random() * 100) + 1)),
-        name: category.name,
-        description: category.description
-      });
+      // TODO - API call
+      // this.categoryList.push({
+      //   $key: (Math.floor((Math.random() * 100) + 1)),
+      //   name: category.name,
+      //   description: category.description
+      // });
+      this.categoryList = this.categoryService.getCategories();
     });
     this.eventService.subscribe('updateCategory', (category) => {
+      // TODO - API call
       this.categoryList = this.categoryList.filter(data => {
         if (data.$key === category.$key) {
           data.name = category.name;
@@ -30,7 +35,9 @@ export class CategoryListComponent implements OnInit {
         }
         return data;
       })
+      // this.categoryList = this.categoryService.getCategories();
     });
+    this.categoryList = this.categoryService.getCategories();
   }
   onEdit(category: Category) {
     this.categoryService.selectedCategory = Object.assign({}, category);
@@ -38,5 +45,6 @@ export class CategoryListComponent implements OnInit {
 
   onDelete($key: string) {
     this.categoryList = this.categoryList.filter(data => data.$key !== $key);
+    this.tostr.success('Successs', 'Category Deleted');
   }
 }

@@ -50,7 +50,7 @@ router.post('/login', async (req, res) => {
         data: { ...user[0] }
       }, res.statusCode));
   } else {
-    res.status(404).json(error("User not found", res.statusCode));
+    res.status(200).json(error("User not found", res.statusCode));
   }
 });
 

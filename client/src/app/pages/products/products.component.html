@@ -1,1 +1,15 @@
-<p>products works!</p>
+<div class="content">
+    <h4 class="text-center" style="padding-top: 10px;">{{title}}</h4>
+    <div class="row">
+        <div [ngClass]="{'col-md-5': productList.length > 0,
+            'col-md-12': productList.length === 0}">
+            <app-product></app-product>
+        </div>
+        <div [ngClass]="{'col-md-7': productList.length > 0,
+            'col-md-12': productList.length === 0}" class="text-center">
+            <ng-container>
+                <app-product-list></app-product-list>
+            </ng-container>
+        </div>
+    </div>
+</div>

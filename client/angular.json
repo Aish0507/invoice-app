@@ -137,6 +137,46 @@
           }
         }
       }
+    },
+    "invoice-modal": {
+      "projectType": "library",
+      "root": "projects/invoice-modal",
+      "sourceRoot": "projects/invoice-modal/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/invoice-modal/tsconfig.lib.json",
+            "project": "projects/invoice-modal/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/invoice-modal/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/invoice-modal/src/test.ts",
+            "tsConfig": "projects/invoice-modal/tsconfig.spec.json",
+            "karmaConfig": "projects/invoice-modal/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/invoice-modal/tsconfig.lib.json",
+              "projects/invoice-modal/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "black-dashboard-angular",

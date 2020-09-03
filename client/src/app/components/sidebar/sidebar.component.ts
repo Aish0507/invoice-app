@@ -14,7 +14,7 @@ export const ROUTES: RouteInfo[] = [
     class: ' '
   },
   {
-    path: '/invoice',
+    path: '/invoices',
     title: 'Invoices',
     icon: 'icon-align-center',
     class: ' '

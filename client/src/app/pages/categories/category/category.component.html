@@ -1,7 +1,7 @@
 <div class="card mt-5">
     <div class="card-body">
         <h6 class="text-center">Categories</h6>
-        <form #categoryForm="ngForm" (ngSubmit)="onSubmit(categoryForm)">
+        <form autocomplete="off" #categoryForm="ngForm" (ngSubmit)="onSubmit(categoryForm)">
             <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="categoryService.selectedCategory.$key">
             <div class="form-group">
                 <input type="text" name="name" class="form-control" #name="ngModel"
