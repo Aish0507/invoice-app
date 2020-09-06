@@ -6,10 +6,11 @@ const authRouter = require('./app-middlewares/auth');
 const productRouter = require('./app-middlewares/product');
 const vendorRouter = require('./app-middlewares/vendor');
 const productHistoryRouter = require('./app-middlewares/product-history');
+const productUploadRouter = require('./app-middlewares/upload-product');
 const app = express();
 const port = 3000;
 
-app.use(bodyParser.json({ type: 'application/json' }));
+app.use(bodyParser.json());
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
 
@@ -40,5 +41,6 @@ app.use('/auth', authRouter);
 app.use('/product', productRouter);
 app.use('/vendor', vendorRouter);
 app.use('/product-history', productHistoryRouter);
+app.use('/upload-product', productUploadRouter);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
