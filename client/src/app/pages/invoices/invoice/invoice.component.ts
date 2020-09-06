@@ -43,9 +43,13 @@ export class InvoiceComponent implements OnInit {
     this.eventService.subscribe('addCustomer', (customer) => {
       this.customerList = this.customerService.getCustomers();
     })
-    this.productList = this.productService.getProducts();
+    this.productService.getProducts().subscribe((data: any) => {
+      this.productList = data.results.data
+    });
     this.eventService.subscribe('addProduct', (category) => {
-      this.productList = this.productService.getProducts();
+      this.productService.getProducts().subscribe((data: any) => {
+        this.productList = data.results.data
+      });
     });
   }
 

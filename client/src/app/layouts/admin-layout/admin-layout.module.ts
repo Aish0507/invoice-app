@@ -21,6 +21,11 @@ import { CustomerListComponent } from '../../pages/customers/customer-list/custo
 import { InvoiceComponent } from '../../pages/invoices/invoice/invoice.component';
 import { InvoiceListComponent } from '../../pages/invoices/invoice-list/invoice-list.component';
 import { InvoicesComponent } from '../../pages/invoices/invoices.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { SearchPipe } from '../../helpers/search.pipe';
+import { VendorsComponent } from '../../pages/vendors/vendors.component';
+import { VendorComponent } from '../../pages/vendors/vendor/vendor.component';
+import { VendorListComponent } from '../../pages/vendors/vendor-list/vendor-list.component';
 
 @NgModule({
   imports: [
@@ -30,7 +35,8 @@ import { InvoicesComponent } from '../../pages/invoices/invoices.component';
     HttpClientModule,
     NgbModule,
     InvoiceModalModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatPaginatorModule
   ],
   declarations: [
     DashboardComponent,
@@ -45,7 +51,11 @@ import { InvoicesComponent } from '../../pages/invoices/invoices.component';
     CustomerListComponent,
     InvoicesComponent,
     InvoiceListComponent,
-    InvoiceComponent
+    InvoiceComponent,
+    SearchPipe,
+    VendorsComponent,
+    VendorComponent,
+    VendorListComponent
   ],
   entryComponents: [
     ProductComponent,

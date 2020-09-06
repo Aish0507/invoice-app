@@ -11,20 +11,24 @@
                 <th>Action</th>
             </thead>
             <tbody>
-                <tr *ngFor="let product of productList">
+                <tr *ngFor="let product of obs | async | search:'name,price':productSearch:productList ">
                     <td>{{product.name}}</td>
                     <td>{{product.price}}</td>
                     <td>{{product.location}}</td>
                     <td>
-                        <a class="btn btn-secondary text-white mr-2" (click)="onEdit(product)">
+                        <a class=" btn btn-secondary text-white mr-2" (click)="onEdit(product)">
                             <i class="far fa-edit"></i>
                         </a>
-                        <a class="btn btn-danger text-white" (click)="onDelete(product.$key)">
+                        <a class="btn btn-danger text-white mr-2" (click)="onDelete(product.$key)">
                             <i class="fas fa-trash-alt"></i>
+                        </a>
+                        <a class="btn btn-primary text-white" (click)="onDelete(product.$key)">
+                            <i class="fa fa-eye"></i>
                         </a>
                     </td>
                 </tr>
             </tbody>
         </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
     </div>
 </div>

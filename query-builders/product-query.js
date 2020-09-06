@@ -1,4 +1,4 @@
 module.exports = (pagination) => `
 SELECT *
 FROM product
-ORDER BY id ASC limit ${pagination.limit} OFFSET ${pagination.offset} `;
+ORDER BY id DESC limit ${pagination.limit} OFFSET ${pagination.offset} `;

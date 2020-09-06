@@ -23,11 +23,13 @@
   "private": false,
   "dependencies": {
     "@angular/animations": "9.0.5",
+    "@angular/cdk": "~9.2.1",
     "@angular/common": "9.0.5",
     "@angular/compiler": "9.0.5",
     "@angular/core": "9.0.5",
     "@angular/forms": "9.0.5",
     "@angular/localize": "^9.0.5",
+    "@angular/material": "~9.2.1",
     "@angular/platform-browser": "9.0.5",
     "@angular/platform-browser-dynamic": "9.0.5",
     "@angular/router": "9.0.5",
@@ -40,6 +42,7 @@
     "rxjs": "6.5.2",
     "rxjs-compat": "^6.6.2",
     "tslib": "1.10.0",
+    "xlsx": "^0.16.6",
     "zone.js": "0.10.2"
   },
   "devDependencies": {

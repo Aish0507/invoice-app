@@ -33,7 +33,7 @@ router.post('/create', async (req, res) => {
             basic_unit, limited, in_stock, active_for_sale,
             p_id
         }, (data) => {
-            console.log('History data:', data);
+            // console.log('History data:', data);
         });
         res
             .status(201)

@@ -19,7 +19,7 @@ module.exports = (endpoint, method, data, success) => {
         });
         res.on("end", function () {
             var body = Buffer.concat(chunks);
-            console.log(body.toString());
+            // console.log(body.toString());
             success(body.toString())
         });
     });
