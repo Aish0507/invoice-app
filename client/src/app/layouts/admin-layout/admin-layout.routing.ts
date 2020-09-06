@@ -7,6 +7,7 @@ import { CustomersComponent } from '../../pages/customers/customers.component';
 import { InvoicesComponent } from '../../pages/invoices/invoices.component';
 import { InvoiceListComponent } from '../../pages/invoices/invoice-list/invoice-list.component';
 import { AuthGuard } from '../../auth.guard';
+import { VendorsComponent } from '../../pages/vendors/vendors.component';
 
 export const AdminLayoutRoutes: Routes = [
   { path: 'dashboard', canActivate: [AuthGuard], component: DashboardComponent },
@@ -15,4 +16,5 @@ export const AdminLayoutRoutes: Routes = [
   { path: 'customers', canActivate: [AuthGuard], component: CustomersComponent },
   { path: 'invoices', canActivate: [AuthGuard], component: InvoicesComponent },
   { path: 'invoices-list', canActivate: [AuthGuard], component: InvoiceListComponent },
+  { path: 'vendors', canActivate: [AuthGuard], component: VendorsComponent },
 ];

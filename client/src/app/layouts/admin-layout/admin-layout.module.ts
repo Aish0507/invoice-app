@@ -23,6 +23,9 @@ import { InvoiceListComponent } from '../../pages/invoices/invoice-list/invoice-
 import { InvoicesComponent } from '../../pages/invoices/invoices.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { SearchPipe } from '../../helpers/search.pipe';
+import { VendorsComponent } from '../../pages/vendors/vendors.component';
+import { VendorComponent } from '../../pages/vendors/vendor/vendor.component';
+import { VendorListComponent } from '../../pages/vendors/vendor-list/vendor-list.component';
 
 @NgModule({
   imports: [
@@ -49,7 +52,10 @@ import { SearchPipe } from '../../helpers/search.pipe';
     InvoicesComponent,
     InvoiceListComponent,
     InvoiceComponent,
-    SearchPipe
+    SearchPipe,
+    VendorsComponent,
+    VendorComponent,
+    VendorListComponent
   ],
   entryComponents: [
     ProductComponent,

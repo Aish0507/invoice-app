@@ -1,0 +1,24 @@
+<div class="card mt-5">
+    <div class="card-body">
+        <h6 class="text-center">Vendors</h6>
+        <form autocomplete="off" #vendorForm="ngForm" (ngSubmit)="onSubmit(vendorForm)">
+            <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="vendorService.selectedVendor.$key">
+            <div class="form-group">
+                <input type="text" name="name" class="form-control" #name="ngModel"
+                    [(ngModel)]="vendorService.selectedVendor.name" placeholder="Add Vendor Name">
+            </div>
+            <div class="form-group">
+                <input type="text" name="description" class="form-control" #description="ngModel"
+                    [(ngModel)]="vendorService.selectedVendor.description" placeholder="Add Vendor Description">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">
+                    <i class="fas fa-plus-circle"></i> Add
+                </button>
+                <button class="btn btn-secondary" type="reset" (click)="resetForm(vendorForm)">
+                    <i class="fas fa-sync-alt"></i> Reset
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

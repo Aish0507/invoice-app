@@ -42,6 +42,12 @@ export const ROUTES: RouteInfo[] = [
     title: 'Categories',
     icon: 'icon-single-02',
     class: ' '
+  },
+  {
+    path: '/vendors',
+    title: 'Vendors',
+    icon: 'icon-single-02',
+    class: ' '
   }
 ];
 
