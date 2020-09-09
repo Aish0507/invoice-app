@@ -34,7 +34,6 @@ export class CategoryListComponent implements OnInit {
     this.getCategoryList(this.status);
   }
   onEdit(category: Category) {
-    console.log({ category })
     this.categoryService.selectedCategory = Object.assign({}, category);
   }
 

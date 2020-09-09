@@ -1,24 +1,45 @@
 <div class="card mt-5">
     <div class="card-body">
         <h6 class="text-center">List of Customer</h6>
+        <div class="float-right mb-1">
+            <select class="bg-danger form-control w-100 form-control-sm" [(ngModel)]="status"
+                (ngModelChange)="statusChange($event)">
+                <option value="1">Active</option>
+                <option value="0">In Active</option>
+            </select>
+        </div>
+        <input type="text" name="name" class="mb-2 form-control" #name="ngModel" [(ngModel)]="customerSearch"
+            placeholder="Search">
         <table class="table table-sm table-hover">
+            <thead>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Mobile no</th>
+                <th>Address</th>
+                <th>Status</th>
+                <th>Action</th>
+            </thead>
             <tbody>
-                <tr *ngFor="let customer of customerList">
-                    <td>{{customer.name}}</td>
-                    <td>{{customer.lastname}}</td>
-                    <td>{{customer.phone}}</td>
+                <tr
+                    *ngFor="let customer of obs | async | search:'f_name,l_name,mobile_no,address':customerSearch:customerList">
+                    <td>{{customer.f_name}}</td>
+                    <td>{{customer.l_name}}</td>
+                    <td>{{customer.mobile_no}}</td>
                     <td>{{customer.address}}</td>
+                    <td class="desc" [ngClass]="{'text-success': customer.is_active,
+                                                                'text-danger': !customer.is_active}">
+                        {{customer.is_active ? 'Active': 'In active'}}</td>
                     <td>
-                        <a class="btn btn-secondary text-white" (click)="onEdit(customer)"><i class="far fa-edit"></i>
+                        <a class="btn btn-secondary text-white mr-1" (click)="onEdit(customer)"><i
+                                class="far fa-edit"></i>
                         </a>
-                    </td>
-                    <td>
-                        <a class="btn btn-danger text-white" (click)="onDelete(customer.id)">
+                        <a class="btn btn-danger text-white" (click)="onDelete(customer)">
                             <i class="fas fa-trash-alt"></i>
                         </a>
                     </td>
                 </tr>
             </tbody>
         </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
     </div>
 </div>

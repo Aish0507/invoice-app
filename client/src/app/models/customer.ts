@@ -1,15 +1,25 @@
 export class Customer {
   id?: string;
-  name: string;
-  lastname: string;
+  // tslint:disable-next-line:variable-name
+  f_name: string;
+  // tslint:disable-next-line:variable-name
+  l_name: string;
   address: string;
-  phone: number;
+  // tslint:disable-next-line:variable-name
+  mobile_no: number;
+  // tslint:disable-next-line:variable-name
+  is_active: any
 }
 
 export interface ICustomer {
-  key?: string;
-  name: string;
-  lastname: string;
+  id?: string;
+  // tslint:disable-next-line:variable-name
+  f_name: string;
+  // tslint:disable-next-line:variable-name
+  l_name: string;
   address: string;
-  phone: number;
+  // tslint:disable-next-line:variable-name
+  mobile_no: number;
+  // tslint:disable-next-line:variable-name
+  is_active: any
 }

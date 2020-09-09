@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { InvoiceService } from '../../../services/invoice.service';
 import { Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { CustomerService } from '../../../services/customer.service';
@@ -10,24 +10,29 @@ import { CustomerComponent } from '../../customers/customer/customer.component';
 import { ProductComponent } from '../../products/product/product.component';
 import { InvoiceModalService } from 'projects/invoice-modal/src/public-api';
 import { EventService } from '../../../services/event.service';
-
+import { Observable } from 'rxjs';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 @Component({
   selector: 'app-invoice',
   templateUrl: './invoice.component.html',
   styleUrls: ['./invoice.component.css']
 })
-export class InvoiceComponent implements OnInit {
+export class InvoiceComponent implements OnInit, OnDestroy {
   form: FormGroup;
   title = 'Add Invoice';
-  phoneCustomer: "";
-  addressCustomer: "";
+  phoneCustomer: any;
+  addressCustomer: any;
   showDiv: true;
   customer: true;
-
   private selectUndefinedOptionValue: any;
   customerList: ICustomer[];
   productList: IProduct[];
-
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  obs: Observable<any>;
+  dataSource: MatTableDataSource<any>;
+  productSearch: any;
+  status: any = 1;
   constructor(
     private _fb: FormBuilder,
     private invoiceService: InvoiceService,
@@ -41,16 +46,17 @@ export class InvoiceComponent implements OnInit {
   ngOnInit() {
     this.initForm();
     this.eventService.subscribe('addCustomer', (customer) => {
-      this.customerList = this.customerService.getCustomers();
+      this.getCustomerList();
     })
     this.productService.getProducts().subscribe((data: any) => {
-      this.productList = data.results.data
+      this.getProductList(data)
     });
     this.eventService.subscribe('addProduct', (category) => {
       this.productService.getProducts().subscribe((data: any) => {
-        this.productList = data.results.data
+        this.getProductList(data)
       });
     });
+    this.getCustomerList();
   }
 
   initForm(): void {
@@ -72,7 +78,7 @@ export class InvoiceComponent implements OnInit {
     let totalSum = 0;
     // tslint:disable-next-line:forin
     for (const i in purchases) {
-      const amount = (purchases[i].quantity * purchases[i].product.price);
+      const amount = (purchases[i].quantity * purchases[i].product.price_per_unit);
       control.at(+i).get('amount').setValue(amount, { onlySelf: true, emitEvent: false });
       // update total price
       totalSum += amount;
@@ -90,7 +96,7 @@ export class InvoiceComponent implements OnInit {
   }
 
   money(value: number) {
-    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 });
+    return value.toLocaleString('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 2 });
   }
 
   public addPurchase(product: Product): void {
@@ -166,9 +172,24 @@ export class InvoiceComponent implements OnInit {
   getSelectedOptionText(event) {
     this.resetPurchase();
     this.showDiv = null;
-    this.phoneCustomer = event.phone;
+    this.phoneCustomer = event.mobile_no;
     this.addressCustomer = event.address;
   }
-
+  getCustomerList() {
+    this.customerService.getCustomers(1).subscribe(data => {
+      this.customerList = data.results.data
+    })
+  }
+  getProductList(data: any) {
+    this.productList = data.results.data
+    this.dataSource = new MatTableDataSource<any>(this.productList);
+    this.dataSource.paginator = this.paginator;
+    this.obs = this.dataSource.connect();
+  }
+  ngOnDestroy() {
+    if (this.dataSource) {
+      this.dataSource.disconnect();
+    }
+  }
 }
 

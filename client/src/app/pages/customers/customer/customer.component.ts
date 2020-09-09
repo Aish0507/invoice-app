@@ -17,18 +17,30 @@ export class CustomerComponent implements OnInit {
     private eventService: EventService) { }
 
   ngOnInit(): void {
-    this.resetForm();
-    this.customerList = this.customerService.getCustomers();
   }
   onSubmit(customerForm: NgForm) {
-    if (customerForm.value.id == null) {
-      this.eventService.broadcast('addCustomer', customerForm.value);
-      this.customerService.insertCustomer(customerForm.value);
+    if (customerForm.value && customerForm.value.id == null || customerForm.value.id === undefined) {
+      this.customerService.insertCustomer(customerForm.value).subscribe(ok => {
+        if (!ok.error) {
+          this.eventService.broadcast('addCustomer', customerForm.value);
+        } else {
+          this.tostr.error('Error', 'Fail');
+        }
+      }, err => {
+        this.tostr.error('Error', 'Fail- Add all data')
+      },
+        () => {
+          this.tostr.success('Submitted Successfully', 'Customer Register');
+        })
     } else {
-      this.eventService.broadcast('updateCustomer', customerForm.value);
-      // this.customerService.updateCustomer(customerForm.value);
+      if (customerForm.value) {
+        this.customerService.updateCustomer(customerForm.value).subscribe(ok => {
+          if (!ok.error) {
+            this.eventService.broadcast('updateCustomer', customerForm.value);
+          }
+        })
+      }
     }
-    this.tostr.success('Submitted Successfully', 'Customer Register');
     this.resetForm(customerForm);
   }
 
@@ -36,7 +48,7 @@ export class CustomerComponent implements OnInit {
     if (customerForm != null) {
       customerForm.reset();
     }
-    this.customerService.selectedCustomer = new Customer();
+    // this.customerService.selectedCustomer = new Customer();
   }
 
 }

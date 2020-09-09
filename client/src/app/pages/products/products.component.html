@@ -8,12 +8,10 @@
         </div>
     </div>
     <div class="row">
-        <div [ngClass]="{'col-md-5': productList.length > 0,
-            'col-md-12': productList.length === 0}">
+        <div [ngClass]="{'col-lg-12': true}">
             <app-product></app-product>
         </div>
-        <div [ngClass]="{'col-md-7': productList.length > 0,
-            'col-md-12': productList.length === 0}" class="text-center">
+        <div [ngClass]="{'col-lg-12': true}" class="text-center">
             <ng-container>
                 <app-product-list></app-product-list>
             </ng-container>

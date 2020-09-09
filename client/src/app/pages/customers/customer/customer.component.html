@@ -4,25 +4,32 @@
         <form autocomplete="off" #customerForm="ngForm" (ngSubmit)="onSubmit(customerForm)">
             <input type="hidden" name="id" #id="ngModel" [(ngModel)]="customerService.selectedCustomer.id">
             <div class="form-group">
-                <input type="text" name="name" class="form-control" #name="ngModel"
-                    [(ngModel)]="customerService.selectedCustomer.name" placeholder="Add Customer Name">
+                <input required type="text" name="f_name" class="form-control" #f_name="ngModel"
+                    [(ngModel)]="customerService.selectedCustomer.f_name" placeholder="Add Customer Name">
             </div>
             <div class="form-group">
-                <input type="text" name="lastname" class="form-control" #lastname="ngModel"
-                    [(ngModel)]="customerService.selectedCustomer.lastname" placeholder="Add Customer Last Name">
+                <input required type="text" name="l_name" class="form-control" #l_name="ngModel"
+                    [(ngModel)]="customerService.selectedCustomer.l_name" placeholder="Add Customer Last Name">
             </div>
             <div class="form-group">
-                <input type="text" name="phone" class="form-control" #phone="ngModel"
-                    [(ngModel)]="customerService.selectedCustomer.phone" placeholder="Add Customer Phone">
+                <input required type="text" name="mobile_no" class="form-control" #mobile_no="ngModel"
+                    [(ngModel)]="customerService.selectedCustomer.mobile_no" placeholder="Add Customer Phone">
             </div>
             <div class="form-group">
-                <textarea name="address" class="form-control" #address="ngModel"
+                <textarea required name="address" class="form-control" #address="ngModel"
                     [(ngModel)]="customerService.selectedCustomer.address"
                     placeholder="Add Customer Address"></textarea>
             </div>
+            <div class="form-group" *ngIf="customerForm.value.id">
+                <select name="is_active" #is_active="ngModel" class="bg-danger form-control w-100 form-control-lg"
+                    [(ngModel)]="customerService.selectedCustomer.is_active">
+                    <option value="1">Active</option>
+                    <option value="0">In Active</option>
+                </select>
+            </div>
             <div class="form-group">
-                <button class="btn btn-primary" type="submit">
-                    <i class="fas fa-plus-circle"></i> Add A Customer
+                <button class="btn btn-primary" [disabled]="!customerForm.valid" type="submit">
+                    <i class="fas fa-plus-circle"></i> {{customerForm.value.id ? 'Update': 'Add'}}
                 </button>
                 <button class="btn btn-secondary" type="reset" (click)="resetForm(customerForm)">
                     <i class="fas fa-sync-alt"></i> Reset
