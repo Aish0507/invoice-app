@@ -37,7 +37,6 @@ export class VendorListComponent implements OnInit {
     this.getVendorsList(this.status);
   }
   onEdit(vendor: Vendor) {
-    console.log(vendor);
     this.vendorService.selectedVendor = Object.assign({}, vendor);
   }
   onDelete(vendor: Vendor) {

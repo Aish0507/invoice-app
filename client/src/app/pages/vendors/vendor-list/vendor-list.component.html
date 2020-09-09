@@ -30,10 +30,9 @@
                         <td class="desc" [ngClass]="{'text-success': vendor.is_active,
                         'text-danger': !vendor.is_active}">{{vendor.is_active ? 'Active': 'In active'}}</td>
                         <td>
-                            <a class="btn btn-secondary text-white" (click)="onEdit(vendor)"><i class="far fa-edit"></i>
+                            <a class="btn btn-secondary text-white mr-1" (click)="onEdit(vendor)"><i
+                                    class="far fa-edit"></i>
                             </a>
-                        </td>
-                        <td>
                             <a class="btn btn-danger text-white" (click)="onDelete(vendor)">
                                 <i class="fas fa-trash-alt"></i>
                             </a>

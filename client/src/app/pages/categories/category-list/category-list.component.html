@@ -1,22 +1,42 @@
 <div class="card mt-5">
     <div class="card-body">
         <h6 class="text-center">List of Categories</h6>
+        <div class="float-right mb-1">
+            <select class="bg-danger form-control w-100 form-control-sm" [(ngModel)]="status"
+                (ngModelChange)="statusChange($event)">
+                <option value="1">Active</option>
+                <option value="0">In Active</option>
+            </select>
+        </div>
+        <input type="text" name="name" class="mb-2 form-control" #name="ngModel" [(ngModel)]="categorySearch"
+            placeholder="Search">
         <table class="table table-sm table-hover">
+            <thead>
+                <th>#ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Action</th>
+            </thead>
             <tbody>
-                <tr *ngFor="let category of categoryList">
+                <tr *ngFor="let category of obs | async | search:'name,description':categorySearch:categoryList">
+                    <td class="desc">{{category.id}}</td>
                     <td class="desc">{{category.name}}</td>
                     <td class="desc">{{category.description}}</td>
+                    <td class="desc" [ngClass]="{'text-success': category.is_active,
+                                            'text-danger': !category.is_active}">
+                        {{category.is_active ? 'Active': 'In active'}}</td>
                     <td>
-                        <a class="btn btn-secondary text-white" (click)="onEdit(category)"><i class="far fa-edit"></i>
+                        <a class="btn btn-secondary text-white mr-1" (click)="onEdit(category)"><i
+                                class="far fa-edit"></i>
                         </a>
-                    </td>
-                    <td>
-                        <a class="btn btn-danger text-white" (click)="onDelete(category.id)">
+                        <a class="btn btn-danger text-white" (click)="onDelete(category)">
                             <i class="fas fa-trash-alt"></i>
                         </a>
                     </td>
                 </tr>
             </tbody>
         </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
     </div>
 </div>

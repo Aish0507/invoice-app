@@ -24,7 +24,9 @@ export class ProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.resetForm();
-    this.categoryList = this.categoryService.getCategories();
+    this.categoryService.getCategories(status).subscribe(data => {
+      this.categoryList = data.results.data
+    })
   }
   resetForm(productForm?: NgForm) {
     if (productForm != null)
