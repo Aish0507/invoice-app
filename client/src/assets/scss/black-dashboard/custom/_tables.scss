@@ -197,3 +197,13 @@ mat-paginator.mat-paginator {
 .mat-select-value {
     color: white;
 }
+.table th, .table td {
+  border: hidden !important;
+  color: white;
+}
+td.desc.text-success {
+  color: #007bff!important;
+}
+td.desc.text-danger {
+  color: #dc3545!important
+}

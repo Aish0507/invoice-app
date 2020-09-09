@@ -16,15 +16,15 @@ export class ProductService {
   }
   insertProduct(product: Product) {
     this.productList.push({
-      $key: (Math.floor((Math.random() * 100) + 1)),
+      id: (Math.floor((Math.random() * 100) + 1)),
       name: product.name,
       location: product.location,
       price: product.price,
       categoryS: product.categoryS
     });
   }
-  deleteProduct($key: string) {
-    this.productList = this.productList.filter(data => data.$key !== $key);
+  deleteProduct(id: string) {
+    this.productList = this.productList.filter(data => data.id !== id);
     console.log(this.productList);
   }
   uploadProductFromFile(data: any) {

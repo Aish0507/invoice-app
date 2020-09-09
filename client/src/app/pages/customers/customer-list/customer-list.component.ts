@@ -24,7 +24,7 @@ export class CustomerListComponent implements OnInit {
     })
     this.eventService.subscribe('updateCustomer', (customer) => {
       this.customerList = this.customerList.filter(data => {
-        if (data.$key === customer.$key) {
+        if (data.id === customer.id) {
           data.name = customer.name;
           data.lastname = customer.lastname;
           data.address = customer.address;
@@ -38,8 +38,8 @@ export class CustomerListComponent implements OnInit {
     this.customerService.selectedCustomer = Object.assign({}, customer);
   }
 
-  onDelete($key: string) {
-    this.customerList = this.customerList.filter(data => data.$key !== $key);
+  onDelete(id: string) {
+    this.customerList = this.customerList.filter(data => data.id !== id);
   }
 
 }

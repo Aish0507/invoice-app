@@ -2,7 +2,7 @@
     <div class="card-body">
         <h6 class="text-center">Products</h6>
         <form autocomplete="off" #productForm="ngForm" (ngSubmit)="onSubmit(productForm)">
-            <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="productService.selectedProduct.$key">
+            <input type="hidden" name="id" #id="ngModel" [(ngModel)]="productService.selectedProduct.id">
             <div class="form-group">
                 <input type="text" name="name" class="form-control" #name="ngModel"
                     [(ngModel)]="productService.selectedProduct.name" placeholder="Add Product Name">
@@ -21,7 +21,7 @@
                 <select class="form-control category" name="categoryS" #categoryS="ngModel"
                     [(ngModel)]="productService.selectedProduct.categoryS">
                     <option disabled hidden [value]="selectUndefinedOptionValue">Please select value</option>
-                    <option *ngFor="let catg of categoryList; let i = index" [ngValue]="catg.$key">
+                    <option *ngFor="let catg of categoryList; let i = index" [ngValue]="catg.id">
                         {{catg.name}}
                     </option>
                 </select>

@@ -1,21 +1,21 @@
-import {Product} from './product';
-import {Customer} from './customer';
+import { Product } from './product';
+import { Customer } from './customer';
 
 
 export class Invoice {
-    $key: string;
-    invnumber: number;
-    custumername: string;
-    
-    // valor total
-    amount: number;
-    status: string;
-    invtotal: number;
-    paymenttype: string;
-  
-    // products: Array<string>;
-    // products: string;
-    // products: Iproducts;
+  id: string;
+  invnumber: number;
+  custumername: string;
+
+  // valor total
+  amount: number;
+  status: string;
+  invtotal: number;
+  paymenttype: string;
+
+  // products: Array<string>;
+  // products: string;
+  // products: Iproducts;
 
 }
 
@@ -32,7 +32,7 @@ export interface Purchase {
 }
 
 export interface IInvoice {
-  $key?: string;
+  id?: string;
   invoiceNumber?: number;
   createdAt?: string;
   uid?: string;

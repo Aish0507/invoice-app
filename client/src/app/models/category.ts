@@ -1,5 +1,5 @@
 export class Category {
-    $key: any;
+    id: any;
     name: string;
     description: string;
 }

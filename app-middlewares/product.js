@@ -6,7 +6,7 @@ const create = require('../crud/create');
 const { error, success } = require('../helpers/responseapi');
 const query = require('../helpers/query');
 const performRequest = require("../helpers/perform-internal-request");
-const listQuery = require('../query-builders/product-query');
+const listQuery = require('../query-builders/table-query');
 const totalCountQuery = require('../query-builders/total-count');
 const constants = require("../helpers/constants");
 router.post('/create', async (req, res) => {
@@ -69,7 +69,8 @@ router.get('/list', async (req, res) => {
     const limit = req.query.limit || constants.PAGE_LIMIT;
     const page = req.query.page || constants.PAGE_NO
     const offset = (page - 1) * limit
-    const list = await query(conn, listQuery({ limit, offset }))
+    const is_active = req.query.active || constants.ACTIVE
+    const list = await query(conn, listQuery({ limit, offset }, 'product', 'active_for_sale', is_active))
     const totalCount = await query(conn, totalCountQuery('product'))
     res
         .status(201)

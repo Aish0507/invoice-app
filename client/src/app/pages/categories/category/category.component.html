@@ -2,7 +2,7 @@
     <div class="card-body">
         <h6 class="text-center">Categories</h6>
         <form autocomplete="off" #categoryForm="ngForm" (ngSubmit)="onSubmit(categoryForm)">
-            <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="categoryService.selectedCategory.$key">
+            <input type="hidden" name="id" #id="ngModel" [(ngModel)]="categoryService.selectedCategory.id">
             <div class="form-group">
                 <input type="text" name="name" class="form-control" #name="ngModel"
                     [(ngModel)]="categoryService.selectedCategory.name" placeholder="Add Category Name">

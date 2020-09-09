@@ -20,7 +20,7 @@ export class CategoryListComponent implements OnInit {
     this.eventService.subscribe('addCategory', (category) => {
       // TODO - API call
       // this.categoryList.push({
-      //   $key: (Math.floor((Math.random() * 100) + 1)),
+      //   id: (Math.floor((Math.random() * 100) + 1)),
       //   name: category.name,
       //   description: category.description
       // });
@@ -29,7 +29,7 @@ export class CategoryListComponent implements OnInit {
     this.eventService.subscribe('updateCategory', (category) => {
       // TODO - API call
       this.categoryList = this.categoryList.filter(data => {
-        if (data.$key === category.$key) {
+        if (data.id === category.id) {
           data.name = category.name;
           data.description = category.description;
         }
@@ -43,8 +43,8 @@ export class CategoryListComponent implements OnInit {
     this.categoryService.selectedCategory = Object.assign({}, category);
   }
 
-  onDelete($key: string) {
-    this.categoryList = this.categoryList.filter(data => data.$key !== $key);
+  onDelete(id: string) {
+    this.categoryList = this.categoryList.filter(data => data.id !== id);
     this.tostr.success('Successs', 'Category Deleted');
   }
 }

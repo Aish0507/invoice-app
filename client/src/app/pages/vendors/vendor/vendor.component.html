@@ -2,18 +2,45 @@
     <div class="card-body">
         <h6 class="text-center">Vendors</h6>
         <form autocomplete="off" #vendorForm="ngForm" (ngSubmit)="onSubmit(vendorForm)">
-            <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="vendorService.selectedVendor.$key">
+            <input type="hidden" name="id" #id="ngModel" [(ngModel)]="vendorService.selectedVendor.id">
             <div class="form-group">
-                <input type="text" name="name" class="form-control" #name="ngModel"
-                    [(ngModel)]="vendorService.selectedVendor.name" placeholder="Add Vendor Name">
+                <input required type="text" name="name" class="form-control" #name="ngModel"
+                    [(ngModel)]="vendorService.selectedVendor.name" placeholder="Add Vendor Name*">
+                <div *ngIf="name.invalid && (name.dirty || name.touched)" class="mt-2 alert alert-danger">
+                    <div *ngIf="name.errors.required">
+                        Error - Name is required.
+                    </div>
+                </div>
             </div>
             <div class="form-group">
-                <input type="text" name="description" class="form-control" #description="ngModel"
-                    [(ngModel)]="vendorService.selectedVendor.description" placeholder="Add Vendor Description">
+                <input required type="text" name="mobile_no" class="form-control" #mobile_no="ngModel"
+                    [(ngModel)]="vendorService.selectedVendor.mobile_no" placeholder="Add Vendor Mobile No*">
+                <div *ngIf="mobile_no.invalid && (mobile_no.dirty || mobile_no.touched)"
+                    class="mt-2 alert alert-danger">
+                    <div *ngIf="mobile_no.errors.required">
+                        Error - mobile no is required.
+                    </div>
+                </div>
             </div>
             <div class="form-group">
-                <button class="btn btn-primary" type="submit">
-                    <i class="fas fa-plus-circle"></i> Add
+                <input required type="text" name="address" class="form-control" #address="ngModel"
+                    [(ngModel)]="vendorService.selectedVendor.address" placeholder="Add Vendor Description*">
+                <div *ngIf="address.invalid && (address.dirty || address.touched)" class="mt-2 alert alert-danger">
+                    <div *ngIf="address.errors.required">
+                        Error - address is required.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" *ngIf="vendorForm.value.id">
+                <select name="is_active" #is_active="ngModel" class="bg-danger form-control w-100 form-control-lg"
+                    [(ngModel)]="vendorService.selectedVendor.is_active">
+                    <option value="1">Active</option>
+                    <option value="0">In Active</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" [disabled]="!vendorForm.valid" type="submit">
+                    <i class="fas fa-plus-circle"></i> {{vendorForm.value.id ? 'Update': 'Add'}}
                 </button>
                 <button class="btn btn-secondary" type="reset" (click)="resetForm(vendorForm)">
                     <i class="fas fa-sync-alt"></i> Reset
