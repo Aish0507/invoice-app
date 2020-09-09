@@ -9,3 +9,8 @@ define("PORT", '3000');
 define("PAGE_LIMIT", '50');
 define("PAGE_NO", '1');
 define("ACTIVE", '1');
+define("WARRANTY", [
+    'one month',
+    'three months',
+    'six months', 'one year',
+    'two years']);

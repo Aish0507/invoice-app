@@ -43,15 +43,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
     });
     this.eventService.subscribe('updateProduct', (category) => {
       // this.productList = this.productService.getProducts();
-      this.productList = this.productList.filter(data => {
-        if (data.id === category.id) {
-          data.name = category.name;
-          data.location = category.location;
-          data.price = category.price;
-          data.categoryS = category.categoryS;
-        }
-        return data;
-      })
     });
     this.productService.getProducts().subscribe(data => {
       this.productList = data.results.data

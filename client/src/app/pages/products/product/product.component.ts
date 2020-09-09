@@ -8,6 +8,9 @@ import { Product } from '../../../models/product';
 import { EventService } from '../../../services/event.service';
 import { CategoryComponent } from '../../categories/category/category.component';
 import { InvoiceModalService } from 'projects/invoice-modal/src/public-api';
+import { VendorsService } from '../../../services/vendors.service';
+import { Vendor } from '../../../models/vendor';
+import { VendorComponent } from '../../vendors/vendor/vendor.component';
 
 @Component({
   selector: 'app-product',
@@ -17,15 +20,24 @@ import { InvoiceModalService } from 'projects/invoice-modal/src/public-api';
 export class ProductComponent implements OnInit {
   private selectUndefinedOptionValue: any;
   categoryList: Category[];
+  warrantyList: any;
+  vendorList: Vendor[];
   constructor(private productService: ProductService,
     private categoryService: CategoryService,
     private eventService: EventService,
-    private modal: InvoiceModalService) { }
+    private modal: InvoiceModalService,
+    private vendorService: VendorsService) { }
 
   ngOnInit(): void {
     this.resetForm();
     this.categoryService.getCategories(status).subscribe(data => {
       this.categoryList = data.results.data
+    })
+    this.productService.getProductWarrantyFromAPI().subscribe(data => {
+      this.warrantyList = data.results.data
+    })
+    this.vendorService.getVendors(status).subscribe(data => {
+      this.vendorList = data.results.data
     })
   }
   resetForm(productForm?: NgForm) {
@@ -37,6 +49,12 @@ export class ProductComponent implements OnInit {
     this.modal.load({
       id: 'my-modal',
       component: CategoryComponent
+    });
+  }
+  vendorModal() {
+    this.modal.load({
+      id: 'my-modal',
+      component: VendorComponent
     });
   }
   onSubmit(productForm: NgForm) {

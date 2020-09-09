@@ -52,19 +52,23 @@ CREATE TABLE categorie(
   is_active BOOLEAN default true,
   PRIMARY KEY (id)
 );
-// SELECT CONCAT(`prefix`,`id`) AS 'vendor_id',`name`, 'mobile_no', 'address', 'is_active' FROM `vendor`;
-ALTER TABLE vendor MODIFY  COLUMN mobile_no bigint(10);
 CREATE TABLE product(
 id int NOT NULL AUTO_INCREMENT,
 name varchar(255) NOT NULL,
-price_per_unit decimal(8,2) NOT NULL,
-gst_percentage decimal(8,2) NOT NULL,
-basic_unit varchar(255) NOT NULL,
-limited BOOLEAN NOT NULL,
+cat_id int NOT NULL,
+p_model_no varchar(255) NULL,
+p_hsn_code varchar(255) NULL,
+p_color varchar(50) NULL,
+vendor_id int NOT NULL,
+p_warranty varchar(100) NULL,
+p_mrp_price decimal(8,2) NOT NULL,
+p_sale_price decimal(8,2) NOT NULL,
+gst_percentage decimal(8,2) NULL, 
+limited BOOLEAN default true,
 in_stock decimal(8,2) NOT NULL,
 active_for_sale BOOLEAN default true,
-vendor_id int NOT NULL,
 FOREIGN KEY(vendor_id) REFERENCES `vendor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY(cat_id) REFERENCES `categorie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 time_created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 time_updated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (id)
@@ -73,18 +77,27 @@ PRIMARY KEY (id)
 CREATE TABLE product_history(
 id int NOT NULL AUTO_INCREMENT,
 name varchar(255) NOT NULL,
-price_per_unit decimal(8,2) NOT NULL,
-gst_percentage decimal(8,2) NOT NULL,
-basic_unit varchar(255) NOT NULL,
-limited BOOLEAN NOT NULL,
+cat_id int NOT NULL,
+p_model_no varchar(255) NULL,
+p_hsn_code varchar(255) NULL,
+p_color varchar(50) NULL,
+vendor_id int NOT NULL,
+p_warranty varchar(100) NULL,
+p_mrp_price decimal(8,2) NOT NULL,
+p_sale_price decimal(8,2) NOT NULL,
+gst_percentage decimal(8,2) NULL, 
+limited BOOLEAN default true,
 in_stock decimal(8,2) NOT NULL,
-active_for_sale BOOLEAN NOT NULL,
+active_for_sale BOOLEAN default true,
 p_id int NOT NULL,
-  FOREIGN KEY(p_id) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  time_created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY(p_id) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY(vendor_id) REFERENCES `vendor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY(cat_id) REFERENCES `categorie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+time_created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 time_updated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (id)
+PRIMARY KEY (id)
 );
+
 
 CREATE TABLE sale_status(
   id int NOT NULL AUTO_INCREMENT,
@@ -98,15 +111,12 @@ time_created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 sale_amount decimal(8,2) NOT NULL,
 sale_amount_paid decimal(8,2) NOT NULL,
 tax_amount decimal(8,2) NOT NULL,
-buyer_name varchar(255) NOT NULL,
-buyer_mobile_no varchar(255) NOT NULL,
+customer_id varchar(255) NOT NULL,
 sale_status_id int NOT NULL,
 user_has_role_id int NOT NULL,
 user_id int NOT NULL,
   FOREIGN KEY(sale_status_id) REFERENCES `sale_status` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY(user_has_role_id) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY(user_id) REFERENCES `user_account` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  
-
   PRIMARY KEY (id)
 );

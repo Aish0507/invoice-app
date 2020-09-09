@@ -1,34 +1,78 @@
 <div class="card mt-5">
     <div class="card-body">
+        {{productForm.value | json}}
         <h6 class="text-center">Products</h6>
         <form autocomplete="off" #productForm="ngForm" (ngSubmit)="onSubmit(productForm)">
             <input type="hidden" name="id" #id="ngModel" [(ngModel)]="productService.selectedProduct.id">
             <div class="form-group">
-                <input type="text" name="name" class="form-control" #name="ngModel"
-                    [(ngModel)]="productService.selectedProduct.name" placeholder="Add Product Name">
-            </div>
-            <div class="form-group">
-                <input type="text" name="location" class="form-control" #location="ngModel"
-                    [(ngModel)]="productService.selectedProduct.location" placeholder="Add Product Location">
-            </div>
-            <div class="form-group">
-                <input type="number" name="price" class="form-control" #price="ngModel"
-                    [(ngModel)]="productService.selectedProduct.price" placeholder="Add Product Price">
+                <input required type="text" name="name" class="form-control" #name="ngModel"
+                    [(ngModel)]="productService.selectedProduct.name" placeholder="Add Product Name*">
             </div>
             <div class="form-group">
                 <a class="badge badge-purple badge-outlined" (click)="categoryModal()">Add New Category <i
                         class="fas fa-plus-circle text-success"></i></a>
-                <select class="form-control category" name="categoryS" #categoryS="ngModel"
-                    [(ngModel)]="productService.selectedProduct.categoryS">
-                    <option disabled hidden [value]="selectUndefinedOptionValue">Please select value</option>
+                <select required class="form-control category" name="cat_id" #cat_id="ngModel"
+                    [(ngModel)]="productService.selectedProduct.cat_id">
+                    <option disabled hidden [value]="selectUndefinedOptionValue">Please Select Category</option>
                     <option *ngFor="let catg of categoryList; let i = index" [ngValue]="catg.id">
                         {{catg.name}}
                     </option>
                 </select>
             </div>
             <div class="form-group">
-                <button class="btn btn-primary" type="submit">
-                    <i class="fas fa-plus-circle"></i> Add A Product
+                <input required type="text" name="p_model_no" class="form-control" #p_model_no="ngModel"
+                    [(ngModel)]="productService.selectedProduct.p_model_no" placeholder="Add Product Model">
+            </div>
+            <div class="form-group">
+                <input required type="text" name="p_hsn_code" class="form-control" #p_hsn_code="ngModel"
+                    [(ngModel)]="productService.selectedProduct.p_hsn_code" placeholder="Add Product HSN Code">
+            </div>
+            <div class="form-group">
+                <input required type="text" name="p_color" class="form-control" #p_color="ngModel"
+                    [(ngModel)]="productService.selectedProduct.p_color" placeholder="Add Product Color">
+            </div>
+            <div class="form-group">
+                <a class="badge badge-purple badge-outlined" (click)="vendorModal()">Add New Vendor <i
+                        class="fas fa-plus-circle text-success"></i></a>
+                <select required class="form-control category" name="vendor_id" #vendor_id="ngModel"
+                    [(ngModel)]="productService.selectedProduct.vendor_id">
+                    <option disabled hidden [value]="selectUndefinedOptionValue">
+                        Please select vendor</option>
+                    <option *ngFor="let vendor of vendorList; let i = index" [ngValue]="vendor.id">
+                        {{vendor.name}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <a class="badge badge-purple badge-outlined">Warranty </a>
+                <select required class="form-control category" name="p_warranty" #p_warranty="ngModel"
+                    [(ngModel)]="productService.selectedProduct.p_warranty">
+                    <option disabled hidden [value]="selectUndefinedOptionValue">
+                        Please select warranty</option>
+                    <option *ngFor="let warranty of warrantyList; let i = index" [ngValue]="warranty">
+                        {{warranty}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input required type="number" name="p_mrp_price" class="form-control" #p_mrp_price="ngModel"
+                    [(ngModel)]="productService.selectedProduct.p_mrp_price" placeholder="Add Product MRP Price">
+            </div>
+            <div class="form-group">
+                <input required type="number" name="p_sale_price" class="form-control" #p_sale_price="ngModel"
+                    [(ngModel)]="productService.selectedProduct.p_sale_price" placeholder="Add Product Sale Price">
+            </div>
+            <div class="form-group">
+                <input required type="number" name="gst_percentage" class="form-control" #gst_percentage="ngModel"
+                    [(ngModel)]="productService.selectedProduct.gst_percentage" placeholder="Add Product GST">
+            </div>
+            <div class="form-group">
+                <input required type="number" name="in_stock" class="form-control" #in_stock="ngModel"
+                    [(ngModel)]="productService.selectedProduct.in_stock" placeholder="Add Product Stock">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" [disabled]="!productForm.valid" type="submit">
+                    <i class="fas fa-plus-circle"></i> {{productForm.value.id ? 'Update': 'Add'}}
                 </button>
                 <button class="btn btn-secondary" type="reset" (click)="resetForm(productForm)">
                     <i class="fas fa-sync-alt"></i> Reset

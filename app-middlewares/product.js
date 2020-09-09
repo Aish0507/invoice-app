@@ -10,27 +10,32 @@ const listQuery = require('../query-builders/table-query');
 const totalCountQuery = require('../query-builders/total-count');
 const constants = require("../helpers/constants");
 router.post('/create', async (req, res) => {
-    const { name, price_per_unit, gst_percentage,
-        basic_unit, limited, in_stock, active_for_sale, vendor_id } = req.body;
+    const { name, cat_id, p_model_no,
+        p_hsn_code, p_color, vendor_id, p_warranty, p_mrp_price, p_sale_price,
+        gst_percentage, limited, in_stock } = req.body;
     const conn = await connection(dbConfig).catch(e => { });
     const result = await create(
         conn,
         'product',
-        ['name', 'price_per_unit', 'gst_percentage',
-            'basic_unit', 'limited', 'in_stock', 'active_for_sale', 'vendor_id'],
-        [name, price_per_unit, gst_percentage,
-            basic_unit, limited, in_stock, active_for_sale, vendor_id]
+        ['name', 'cat_id', 'p_model_no',
+            'p_hsn_code', 'p_color', 'vendor_id', 'p_warranty', 'p_mrp_price', 'p_sale_price',
+            'gst_percentage', 'limited', 'in_stock'],
+        [name, cat_id, p_model_no,
+            p_hsn_code, p_color, vendor_id, p_warranty, p_mrp_price, p_sale_price,
+            gst_percentage, limited, in_stock]
     ).catch(e => {
         res.status(500).json(error("Something went wrong [catch]", res.statusCode));
     })
     if (result) {
         const [product = {}] = result;
-        const { name, price_per_unit, gst_percentage,
-            basic_unit, limited, in_stock, active_for_sale, id } = product;
+        const { name, cat_id, p_model_no,
+            p_hsn_code, p_color, vendor_id, p_warranty, p_mrp_price, p_sale_price,
+            gst_percentage, limited, in_stock } = product;
         const p_id = id;
         performRequest('/product-history/create', 'POST', {
-            name, price_per_unit, gst_percentage,
-            basic_unit, limited, in_stock, active_for_sale,
+            name, cat_id, p_model_no,
+            p_hsn_code, p_color, vendor_id, p_warranty, p_mrp_price, p_sale_price,
+            gst_percentage, limited, in_stock,
             p_id
         }, (data) => {
             // console.log('History data:', data);
@@ -82,4 +87,11 @@ router.get('/list', async (req, res) => {
         }, res.statusCode));
 });
 
+router.get('/warranty', async (req, res) => {
+    res
+        .status(201)
+        .json(success("OK", {
+            data: [...constants.WARRANTY]
+        }, res.statusCode));
+});
 module.exports = router;

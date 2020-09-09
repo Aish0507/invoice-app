@@ -15,13 +15,7 @@ export class ProductService {
     return this.getProductFromAPI()
   }
   insertProduct(product: Product) {
-    this.productList.push({
-      id: (Math.floor((Math.random() * 100) + 1)),
-      name: product.name,
-      location: product.location,
-      price: product.price,
-      categoryS: product.categoryS
-    });
+
   }
   deleteProduct(id: string) {
     this.productList = this.productList.filter(data => data.id !== id);
@@ -41,4 +35,12 @@ export class ProductService {
         return res;
       }));
   }
+  getProductWarrantyFromAPI() {
+    return this.http.get<any>(`${environment.apiUrl}/product/warranty`)
+      .pipe(map(res => {
+        this.productList = res.results.data
+        return res;
+      }));
+  }
+
 }
