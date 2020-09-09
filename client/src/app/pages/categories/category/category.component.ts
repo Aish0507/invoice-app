@@ -16,7 +16,7 @@ export class CategoryComponent implements OnInit {
   ngOnInit(): void {
   }
   onSubmit(categoryForm: NgForm) {
-    if (categoryForm.value.$key == null) {
+    if (categoryForm.value.id == null) {
       this.eventService.broadcast('addCategory', categoryForm.value);
       this.categoryService.insertCategory(categoryForm.value);
     }

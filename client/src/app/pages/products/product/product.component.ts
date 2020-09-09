@@ -38,7 +38,7 @@ export class ProductComponent implements OnInit {
     });
   }
   onSubmit(productForm: NgForm) {
-    if (productForm.value.$key == null) {
+    if (productForm.value.id == null) {
       this.eventService.broadcast('addProduct', productForm.value);
       this.productService.insertProduct(productForm.value);
     } else {

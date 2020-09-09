@@ -21,7 +21,7 @@ export class CustomerComponent implements OnInit {
     this.customerList = this.customerService.getCustomers();
   }
   onSubmit(customerForm: NgForm) {
-    if (customerForm.value.$key == null) {
+    if (customerForm.value.id == null) {
       this.eventService.broadcast('addCustomer', customerForm.value);
       this.customerService.insertCustomer(customerForm.value);
     } else {

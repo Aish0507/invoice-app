@@ -28,12 +28,16 @@ role_id int NOT NULL,
 );
 
 CREATE TABLE vendor(
-  id int NOT NULL AUTO_INCREMENT,
-  name varchar(255) NOT NULL,
-  mobile_no int NOT NULL,
-  address varchar(255) NOT NULL,
-  PRIMARY KEY (id)
+  prefix varchar(4) NOT NULL DEFAULT 'VEN_',
+  id int(10) NOT NULL AUTO_INCREMENT,
+  name varchar(255)  NULL,
+  mobile_no bigint(10)  NULL,
+  address varchar(255)  NULL,
+  is_active BOOLEAN default true,
+  PRIMARY KEY (id),
+  UNIQUE KEY (`prefix`, `id`)
 );
+// SELECT CONCAT(`prefix`,`id`) AS 'vendor_id',`name`, 'mobile_no', 'address', 'is_active' FROM `vendor`;
 ALTER TABLE vendor MODIFY  COLUMN mobile_no bigint(10);
 CREATE TABLE product(
 id int NOT NULL AUTO_INCREMENT,
@@ -43,12 +47,12 @@ gst_percentage decimal(8,2) NOT NULL,
 basic_unit varchar(255) NOT NULL,
 limited BOOLEAN NOT NULL,
 in_stock decimal(8,2) NOT NULL,
-active_for_sale BOOLEAN NOT NULL,
+active_for_sale BOOLEAN default true,
 vendor_id int NOT NULL,
-  FOREIGN KEY(vendor_id) REFERENCES `vendor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  time_created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY(vendor_id) REFERENCES `vendor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+time_created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 time_updated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (id)
+PRIMARY KEY (id)
 );
 
 CREATE TABLE product_history(

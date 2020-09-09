@@ -1,22 +1,47 @@
 <div class="card mt-5">
     <div class="card-body">
         <h6 class="text-center">List of Vendors</h6>
-        <table class="table table-sm table-hover">
-            <tbody>
-                <tr *ngFor="let vendor of vendorList">
-                    <td class="desc">{{vendor.name}}</td>
-                    <td class="desc">{{vendor.description}}</td>
-                    <td>
-                        <a class="btn btn-secondary text-white" (click)="onEdit(vendor)"><i class="far fa-edit"></i>
-                        </a>
-                    </td>
-                    <td>
-                        <a class="btn btn-danger text-white" (click)="onDelete(vendor.$key)">
-                            <i class="fas fa-trash-alt"></i>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="float-right mb-1">
+            <select class="bg-danger form-control w-100 form-control-sm" [(ngModel)]="status"
+                (ngModelChange)="statusChange($event)">
+                <option value="1">Active</option>
+                <option value="0">In Active</option>
+            </select>
+        </div>
+        <input type="text" name="name" class="mb-2 form-control" #name="ngModel" [(ngModel)]="vendorSearch"
+            placeholder="Search">
+        <div class="table-responsives">
+            <table class="table table-sm table-hover">
+                <thead>
+                    <th>#ID</th>
+                    <th>Name</th>
+                    <th>Mobile No</th>
+                    <th>Address</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let vendor of obs | async | search:'vendor_id,name,mobile_no,address':vendorSearch:vendorList">
+                        <td class="desc">{{vendor.vendor_id}}</td>
+                        <td class="desc">{{vendor.name}}</td>
+                        <td class="desc">{{vendor.mobile_no}}</td>
+                        <td class="desc">{{vendor.address}}</td>
+                        <td class="desc" [ngClass]="{'text-success': vendor.is_active,
+                        'text-danger': !vendor.is_active}">{{vendor.is_active ? 'Active': 'In active'}}</td>
+                        <td>
+                            <a class="btn btn-secondary text-white" (click)="onEdit(vendor)"><i class="far fa-edit"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a class="btn btn-danger text-white" (click)="onDelete(vendor)">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
     </div>
 </div>

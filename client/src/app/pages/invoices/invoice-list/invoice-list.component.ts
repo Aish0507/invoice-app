@@ -27,8 +27,8 @@ export class InvoiceListComponent implements OnInit {
     // this.invoiceService.selectedInvoice = Object.assign({},invoice);
   }
 
-  onDelete($key: string) {
-    // this.invoiceService.deleteInvoice($key);
+  onDelete(id: string) {
+    // this.invoiceService.deleteInvoice(id);
   }
 }
 

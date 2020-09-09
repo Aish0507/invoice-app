@@ -2,7 +2,7 @@
     <div class="card-body">
         <h6 class="text-center">Customers</h6>
         <form autocomplete="off" #customerForm="ngForm" (ngSubmit)="onSubmit(customerForm)">
-            <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="customerService.selectedCustomer.$key">
+            <input type="hidden" name="id" #id="ngModel" [(ngModel)]="customerService.selectedCustomer.id">
             <div class="form-group">
                 <input type="text" name="name" class="form-control" #name="ngModel"
                     [(ngModel)]="customerService.selectedCustomer.name" placeholder="Add Customer Name">

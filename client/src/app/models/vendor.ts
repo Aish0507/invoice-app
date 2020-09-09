@@ -1,5 +1,9 @@
 export class Vendor {
-    $key?: any;
+    id?: any;
     name: string;
-    description: string;
+    address: string;
+    // tslint:disable-next-line:variable-name
+    mobile_no: number;
+    // tslint:disable-next-line:variable-name
+    is_active: any
 }

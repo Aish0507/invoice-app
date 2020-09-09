@@ -20,6 +20,6 @@ export class InvoiceService {
   updateInvoice(invoice: Invoice) {
   }
 
-  deleteInvoice($key: string) {
+  deleteInvoice(id: string) {
   }
 }

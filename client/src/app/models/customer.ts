@@ -1,5 +1,5 @@
 export class Customer {
-  $key?: string;
+  id?: string;
   name: string;
   lastname: string;
   address: string;

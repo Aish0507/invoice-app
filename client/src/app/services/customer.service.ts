@@ -13,7 +13,7 @@ export class CustomerService {
   }
   insertCustomer(customer: Customer) {
     this.customerList.push({
-      $key: Math.floor(Math.random() * 101),
+      id: Math.floor(Math.random() * 101),
       name: customer.name,
       lastname: customer.lastname,
       phone: customer.phone,
@@ -24,6 +24,6 @@ export class CustomerService {
   updateCustomer(customer: Customer) {
   }
 
-  deleteCustomer($key: string) {
+  deleteCustomer(id: string) {
   }
 }

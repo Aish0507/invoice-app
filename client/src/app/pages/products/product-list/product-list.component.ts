@@ -44,7 +44,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.eventService.subscribe('updateProduct', (category) => {
       // this.productList = this.productService.getProducts();
       this.productList = this.productList.filter(data => {
-        if (data.$key === category.$key) {
+        if (data.id === category.id) {
           data.name = category.name;
           data.location = category.location;
           data.price = category.price;
@@ -63,10 +63,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
   onEdit(product: Product) {
     this.productService.selectedProduct = Object.assign({}, product);
   }
-  onDelete($key: string) {
-    this.productList = this.productList.filter(data => data.$key !== $key);
-    this.productService.deleteProduct($key);
-    this.eventService.broadcast('deleteProduct', $key);
+  onDelete(id: string) {
+    this.productList = this.productList.filter(data => data.id !== id);
+    this.productService.deleteProduct(id);
+    this.eventService.broadcast('deleteProduct', id);
     this.tostr.success('Successs', 'Product Deleted');
   }
   ngOnDestroy() {
