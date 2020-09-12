@@ -6,6 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { InvoiceModalService } from 'projects/invoice-modal/src/public-api';
+import { ProductHistoryComponent } from '../product-history/product-history.component';
 
 @Component({
   selector: 'app-product-list',
@@ -22,7 +24,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
   constructor(private eventService: EventService,
     public productService: ProductService,
     private tostr: ToastrService,
-    private changeDetectorRef: ChangeDetectorRef) { }
+    private changeDetectorRef: ChangeDetectorRef,
+    private modal: InvoiceModalService) { }
 
   ngOnInit(): void {
     this.changeDetectorRef.detectChanges();
@@ -51,7 +54,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
     dataSet.p_sale_price = product.p_sale_price;
     dataSet.gst_percentage = product.gst_percentage;
     dataSet.in_stock = product.in_stock;
-    console.log(dataSet);
     this.productService.selectedProduct = Object.assign({}, dataSet);
   }
   onDelete(product: Product) {
@@ -83,4 +85,13 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.getProductFromAPI(this.status);
   }
 
+  showHistory(product: Product) {
+    this.modal.load({
+      id: 'product-history',
+      component: ProductHistoryComponent,
+      data: product.pID,
+      mode: 'mobile',
+      modalClass: 'p-history'
+    });
+  }
 }

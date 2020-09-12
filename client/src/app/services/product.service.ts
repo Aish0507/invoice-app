@@ -26,6 +26,7 @@ export class ProductService {
       }));
   }
   deleteProduct(product: Product) {
+    console.log(product);
     return this.http.post<any>(`${environment.apiUrl}/product/soft-delete`, product)
       .pipe(map(data => {
         console.log({ data });
@@ -60,5 +61,10 @@ export class ProductService {
         return res;
       }));
   }
-
+  getProductHistAPI(id: any) {
+    return this.http.get<any>(`${environment.apiUrl}/product-history/list?id=${id}`)
+      .pipe(map(res => {
+        return res;
+      }));
+  }
 }

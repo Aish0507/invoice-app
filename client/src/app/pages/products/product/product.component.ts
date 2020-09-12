@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Category } from '../../../models/category';
-import { Modal } from '@crystalui/angular-modal';
 import { CategoryService } from '../../../services/category.service';
 import { ProductService } from '../../../services/product.service';
 import { NgForm } from '@angular/forms';
@@ -50,7 +49,7 @@ export class ProductComponent implements OnInit {
   categoryModal() {
     this.modal.load({
       id: 'my-modal',
-      component: CategoryComponent
+      component: CategoryComponent,
     });
   }
   vendorModal() {
@@ -60,6 +59,7 @@ export class ProductComponent implements OnInit {
     });
   }
   onSubmit(productForm: NgForm) {
+    productForm.value.active_for_sale = true;
     if (productForm.value && productForm.value.id == null || productForm.value.id === undefined) {
       this.productService.insertProduct(productForm.value).subscribe(ok => {
         if (!ok.error) {

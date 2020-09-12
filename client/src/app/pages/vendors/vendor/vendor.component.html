@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <input required type="text" name="mobile_no" class="form-control" #mobile_no="ngModel"
+                <input required type="number" name="mobile_no" class="form-control" #mobile_no="ngModel"
                     [(ngModel)]="vendorService.selectedVendor.mobile_no" placeholder="Add Vendor Mobile No*">
                 <div *ngIf="mobile_no.invalid && (mobile_no.dirty || mobile_no.touched)"
                     class="mt-2 alert alert-danger">

@@ -27,6 +27,7 @@ import { VendorsComponent } from '../../pages/vendors/vendors.component';
 import { VendorComponent } from '../../pages/vendors/vendor/vendor.component';
 import { VendorListComponent } from '../../pages/vendors/vendor-list/vendor-list.component';
 import { HelipopperModule } from '@ngneat/helipopper';
+import { ProductHistoryComponent } from '../../pages/products/product-history/product-history.component';
 
 @NgModule({
   imports: [
@@ -57,7 +58,8 @@ import { HelipopperModule } from '@ngneat/helipopper';
     SearchPipe,
     VendorsComponent,
     VendorComponent,
-    VendorListComponent
+    VendorListComponent,
+    ProductHistoryComponent
   ],
   entryComponents: [
     ProductComponent,

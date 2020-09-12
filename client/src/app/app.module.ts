@@ -14,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { ComponentsModule } from './components/components.module';
 import { HeaderInterceptor } from './helpers/header.interceptor';
+
 @NgModule({
   imports: [
     BrowserAnimationsModule,

@@ -21,6 +21,7 @@
                 <th>Sale Price</th>
                 <th>Stock</th>
                 <th>Status</th>
+                <th>History</th>
                 <th>Action</th>
             </thead>
             <tbody>
@@ -46,6 +47,9 @@
                     <td class="desc" [ngClass]="{'text-success': product.active_for_sale,
                     'text-danger': !product.active_for_sale}">
                         {{product.active_for_sale ? 'Active': 'In active'}}
+                    </td>
+                    <td (click)="showHistory(product)">
+                        <i class=" text-success fa fa-history"></i>
                     </td>
                     <td>
                         <a class=" btn btn-secondary text-white mr-2" (click)="onEdit(product)">

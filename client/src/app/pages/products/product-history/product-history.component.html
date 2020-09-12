@@ -1,0 +1,49 @@
+<div class="row text-center">
+    <div class="col-lg-12">
+        <h3>Product History</h3>
+    </div>
+</div>
+<!-- {{productHistList | json}} -->
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Model No</th>
+            <th>HSN No</th>
+            <th>Color</th>
+            <th>Warranty</th>
+            <th>MRP Price</th>
+            <th>Sale Price</th>
+            <th>Stock</th>
+            <th>Vender</th>
+            <th>Category</th>
+            <!-- <th>Status</th> -->
+            <th>Created Time</th>
+            <th>Updated Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let product of productHistList">
+            <th scope="row">
+                {{product.pName}}
+            </th>
+            <td>
+                {{product.p_model_no}}
+            </td>
+            <td>{{product.p_hsn_code}}</td>
+            <td>{{product.p_color}}</td>
+            <td>{{product.p_warranty}}</td>
+            <td>{{product.p_mrp_price}}</td>
+            <td>{{product.p_sale_price}}</td>
+            <td>{{product.in_stock}}</td>
+            <td>{{product.vName}}</td>
+            <td>{{product.pName}}</td>
+            <!-- <td class="desc" [ngClass]="{'text-success': product.active_for_sale,
+                                'text-danger': !product.active_for_sale}">
+                {{product.active_for_sale ? 'Active': 'In active'}}
+            </td> -->
+            <td>{{product.pCreatedTime | date:'medium'}}</td>
+            <td>{{product.phUpdatedTime | date:'medium'}}</td>
+        </tr>
+    </tbody>
+</table>
