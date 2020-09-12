@@ -14,17 +14,17 @@ export class ProductsComponent implements OnInit {
   file: any
   arrayBuffer: any;
   filelist: any[];
-  constructor(private productService: ProductService,
+  constructor(public productService: ProductService,
     private eventService: EventService,
     private tostr: ToastrService) { }
 
   ngOnInit(): void {
     this.eventService.subscribe('deleteProduct', (category) => {
-      this.productService.getProducts().subscribe((data: any) => {
+      this.productService.getProducts(1).subscribe((data: any) => {
         this.productList = data.results.data
       });
     });
-    this.productService.getProducts().subscribe((data: any) => {
+    this.productService.getProducts(1).subscribe((data: any) => {
       this.productList = data.results.data
     });
   }

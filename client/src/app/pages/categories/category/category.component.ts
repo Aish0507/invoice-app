@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class CategoryComponent implements OnInit {
   categoryList: Category[];
-  constructor(private categoryService: CategoryService,
+  constructor(public categoryService: CategoryService,
     private eventService: EventService,
     private tostr: ToastrService) { }
 

@@ -1,31 +1,93 @@
 <div class="card mt-5">
     <div class="card-body">
         <h6 class="text-center">List of Products</h6>
+        <div class="float-right mb-2">
+            <select class="bg-danger form-control w-100 form-control-sm" [(ngModel)]="status"
+                (ngModelChange)="statusChange($event)">
+                <option value="1">Active</option>
+                <option value="0">In Active</option>
+            </select>
+        </div>
         <input type="text" *ngIf="productList && productList.length > 0" name="name" class="mb-2 form-control"
             #name="ngModel" [(ngModel)]="productSearch" placeholder="Search">
         <table class="table table-sm table-hover" *ngIf="productList && productList.length > 0">
             <thead>
                 <th>Name</th>
-                <th>Price</th>
-                <th>Location</th>
+                <th>Model No</th>
+                <!-- <th>HSN No</th> -->
+                <th>Color</th>
+                <th>Warranty</th>
+                <!-- <th>MRP Price</th> -->
+                <th>Sale Price</th>
+                <th>Stock</th>
+                <th>Status</th>
                 <th>Action</th>
             </thead>
             <tbody>
-                <tr *ngFor="let product of obs | async | search:'name,price':productSearch:productList ">
-                    <td>{{product.name}}</td>
-                    <td>{{product.price}}</td>
-                    <td>{{product.location}}</td>
+                <tr
+                    *ngFor="let product of obs | async | search:'name,p_model_no,p_hsn_code,p_color,p_warranty,p_mrp_price,p_sale_price':productSearch:productList ">
+                    <td [helipopper]="moreProductInfo" helipopperVariation="popper">
+                        <span class="text-yellow">
+                            {{product.pName}}
+                        </span>
+                    </td>
+                    <td>{{product.p_model_no}}</td>
+                    <!-- <td>{{product.p_hsn_code}}</td> -->
+                    <td>{{product.p_color}}</td>
+                    <td>{{product.p_warranty}}</td>
+                    <!-- <td>{{product.p_mrp_price}}</td> -->
+                    <td>{{product.p_sale_price}}</td>
+                    <td>
+                        <span [helipopper]="product.in_stock <= 5 ? outOfStock : null" helipopperVariation="popper"
+                            [ngClass]="{'text-warning': product.in_stock <= 5}">
+                            {{product.in_stock}}
+                        </span>
+                    </td>
+                    <td class="desc" [ngClass]="{'text-success': product.active_for_sale,
+                    'text-danger': !product.active_for_sale}">
+                        {{product.active_for_sale ? 'Active': 'In active'}}
+                    </td>
                     <td>
                         <a class=" btn btn-secondary text-white mr-2" (click)="onEdit(product)">
                             <i class="far fa-edit"></i>
                         </a>
-                        <a class="btn btn-danger text-white mr-2" (click)="onDelete(product.id)">
+                        <a class="btn btn-danger text-white mr-2" (click)="onDelete(product)">
                             <i class="fas fa-trash-alt"></i>
                         </a>
-                        <a class="btn btn-primary text-white" (click)="onDelete(product.id)">
-                            <i class="fa fa-eye"></i>
-                        </a>
                     </td>
+                    <ng-template #outOfStock>
+                        <div>
+                            <h5 class="text-danger">
+                                Product will be out of stock soon
+                            </h5>
+                        </div>
+                    </ng-template>
+                    <ng-template #moreProductInfo>
+                        <div class="row">
+                            <div class="col-lg-4 p-1">MRP Price</div>
+                            <div class="col-lg-8 p-1">
+                                {{product.p_mrp_price}}
+                            </div>
+                            <div class="col-lg-4 p-1">
+                                Categorie
+                            </div>
+                            <div class="col-lg-8 p-1">
+                                {{product.cName}}
+                            </div>
+                            <div class="col-lg-4 p-1">
+                                Vendor Name
+                            </div>
+                            <div class="col-lg-8 p-1">
+                                {{product.vName}}
+                            </div>
+                            <div class="col-lg-4 p-1">
+                                HSN No
+                            </div>
+                            <div class="col-lg-8 p-1">
+                                {{product.p_hsn_code}}
+                            </div>
+                        </div>
+                    </ng-template>
                 </tr>
             </tbody>
         </table>

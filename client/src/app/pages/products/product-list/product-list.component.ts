@@ -18,52 +18,69 @@ export class ProductListComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   obs: Observable<any>;
   dataSource: MatTableDataSource<any>;
+  status: any = 1;
   constructor(private eventService: EventService,
-    private productService: ProductService,
+    public productService: ProductService,
     private tostr: ToastrService,
     private changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.changeDetectorRef.detectChanges();
     this.eventService.subscribe('addProduct', (category) => {
-      this.productService.getProducts().subscribe((data: any) => {
-        this.productList = data.results.data
-        this.dataSource = new MatTableDataSource<any>(this.productList);
-        this.dataSource.paginator = this.paginator;
-        this.obs = this.dataSource.connect();
-      });
+      this.getProductFromAPI(this.status);
     });
     this.eventService.subscribe('uploadProduct', (category) => {
-      this.productService.getProducts().subscribe((data: any) => {
-        this.productList = data.results.data
-        this.dataSource = new MatTableDataSource<any>(this.productList);
-        this.dataSource.paginator = this.paginator;
-        this.obs = this.dataSource.connect();
-      });
+      this.getProductFromAPI(this.status);
     });
     this.eventService.subscribe('updateProduct', (category) => {
-      // this.productList = this.productService.getProducts();
+      this.getProductFromAPI(this.status);
     });
-    this.productService.getProducts().subscribe(data => {
+    this.getProductFromAPI(this.status);
+  }
+  onEdit(product: any) {
+    const dataSet: any = {};
+    dataSet.name = product.pName.replace(/^"|"$/g, '');
+    dataSet.cat_id = product.cID;
+    dataSet.id = product.pID;
+    dataSet.p_model_no = product.p_model_no.replace(/^"|"$/g, '');
+    dataSet.p_hsn_code = product.p_hsn_code.replace(/^"|"$/g, '');
+    dataSet.p_color = product.p_color.replace(/^"|"$/g, '');
+    dataSet.vendor_id = product.vID;
+    dataSet.p_warranty = product.p_warranty.replace(/^"|"$/g, '');
+    dataSet.p_mrp_price = product.p_mrp_price;
+    dataSet.p_sale_price = product.p_sale_price;
+    dataSet.gst_percentage = product.gst_percentage;
+    dataSet.in_stock = product.in_stock;
+    console.log(dataSet);
+    this.productService.selectedProduct = Object.assign({}, dataSet);
+  }
+  onDelete(product: Product) {
+    const dataSet: any = {};
+    product.active_for_sale = !product.active_for_sale;
+    dataSet.active_for_sale = product.active_for_sale;
+    dataSet.id = product.pID;
+    this.productService.deleteProduct(dataSet).subscribe(ok => {
+      if (!ok.error) {
+        this.getProductFromAPI(this.status);
+        this.tostr.success('Successs', 'Product Deleted');
+      }
+    })
+  }
+  ngOnDestroy() {
+    if (this.dataSource) {
+      this.dataSource.disconnect();
+    }
+  }
+  getProductFromAPI(status: any) {
+    this.productService.getProducts(status).subscribe((data: any) => {
       this.productList = data.results.data
       this.dataSource = new MatTableDataSource<any>(this.productList);
       this.dataSource.paginator = this.paginator;
       this.obs = this.dataSource.connect();
     });
   }
-  onEdit(product: Product) {
-    this.productService.selectedProduct = Object.assign({}, product);
-  }
-  onDelete(id: string) {
-    this.productList = this.productList.filter(data => data.id !== id);
-    this.productService.deleteProduct(id);
-    this.eventService.broadcast('deleteProduct', id);
-    this.tostr.success('Successs', 'Product Deleted');
-  }
-  ngOnDestroy() {
-    if (this.dataSource) {
-      this.dataSource.disconnect();
-    }
+  statusChange(e) {
+    this.getProductFromAPI(this.status);
   }
 
 }

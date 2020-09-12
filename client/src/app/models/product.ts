@@ -24,6 +24,8 @@ export class Product {
   in_stock: any;
   // tslint:disable-next-line:variable-name
   active_for_sale: any;
+  pName?: any
+  pID?: any
 }
 
 
@@ -53,4 +55,7 @@ export interface IProduct {
   in_stock: any;
   // tslint:disable-next-line:variable-name
   active_for_sale: any;
+  pName: any;
+  pID?: any
+
 }

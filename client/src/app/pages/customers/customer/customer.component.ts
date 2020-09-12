@@ -12,7 +12,7 @@ import { EventService } from '../../../services/event.service';
 })
 export class CustomerComponent implements OnInit {
   customerList: Customer[];
-  constructor(private customerService: CustomerService,
+  constructor(public customerService: CustomerService,
     private tostr: ToastrService,
     private eventService: EventService) { }
 

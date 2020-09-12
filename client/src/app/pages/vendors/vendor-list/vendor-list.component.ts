@@ -20,7 +20,7 @@ export class VendorListComponent implements OnInit {
   vendorSearch: any;
   status: any = 1;
   constructor(private eventService: EventService,
-    private vendorService: VendorsService,
+    public vendorService: VendorsService,
     private tostr: ToastrService,
     private changeDetectorRef: ChangeDetectorRef) { }
 

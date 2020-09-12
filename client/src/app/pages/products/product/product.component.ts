@@ -11,6 +11,7 @@ import { InvoiceModalService } from 'projects/invoice-modal/src/public-api';
 import { VendorsService } from '../../../services/vendors.service';
 import { Vendor } from '../../../models/vendor';
 import { VendorComponent } from '../../vendors/vendor/vendor.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product',
@@ -18,15 +19,16 @@ import { VendorComponent } from '../../vendors/vendor/vendor.component';
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
-  private selectUndefinedOptionValue: any;
+  public selectUndefinedOptionValue: any;
   categoryList: Category[];
   warrantyList: any;
   vendorList: Vendor[];
-  constructor(private productService: ProductService,
-    private categoryService: CategoryService,
+  constructor(public productService: ProductService,
+    public categoryService: CategoryService,
     private eventService: EventService,
     private modal: InvoiceModalService,
-    private vendorService: VendorsService) { }
+    public vendorService: VendorsService,
+    private tostr: ToastrService) { }
 
   ngOnInit(): void {
     this.resetForm();
@@ -58,12 +60,27 @@ export class ProductComponent implements OnInit {
     });
   }
   onSubmit(productForm: NgForm) {
-    if (productForm.value.id == null) {
-      this.eventService.broadcast('addProduct', productForm.value);
-      this.productService.insertProduct(productForm.value);
+    if (productForm.value && productForm.value.id == null || productForm.value.id === undefined) {
+      this.productService.insertProduct(productForm.value).subscribe(ok => {
+        if (!ok.error) {
+          this.eventService.broadcast('addProduct', productForm.value);
+        } else {
+          this.tostr.error('Error', 'Fail');
+        }
+      }, err => {
+        this.tostr.error('Error', 'Fail- Add all data')
+      },
+        () => {
+          this.tostr.success('Successs', 'Product Registered');
+        })
     } else {
-      this.eventService.broadcast('updateProduct', productForm.value);
-      //  this.productService.insertProduct(productForm.value);
+      if (productForm.value) {
+        this.productService.updateProduct(productForm.value).subscribe(ok => {
+          if (!ok.error) {
+            this.eventService.broadcast('updateProduct', productForm.value);
+          }
+        })
+      }
     }
     this.resetForm(productForm);
   }

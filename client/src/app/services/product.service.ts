@@ -11,15 +11,33 @@ export class ProductService {
   productList: Product[] = [];
   selectedProduct: Product = new Product();
   constructor(private http: HttpClient) { }
-  getProducts() {
-    return this.getProductFromAPI()
+  getProducts(status?: any) {
+    return this.getProductFromAPI(status)
   }
   insertProduct(product: Product) {
-
+    return this.http.post<any>(`${environment.apiUrl}/product/create`, product)
+      .pipe(map(data => {
+        if (!data.error) {
+          console.log(data);
+        } else {
+          console.log(data);
+        }
+        return data;
+      }));
   }
-  deleteProduct(id: string) {
-    this.productList = this.productList.filter(data => data.id !== id);
-    console.log(this.productList);
+  deleteProduct(product: Product) {
+    return this.http.post<any>(`${environment.apiUrl}/product/soft-delete`, product)
+      .pipe(map(data => {
+        console.log({ data });
+        return data;
+      }))
+  }
+  updateProduct(product: Product) {
+    return this.http.post<any>(`${environment.apiUrl}/product/update`, product)
+      .pipe(map(data => {
+        console.log({ data });
+        return data;
+      }))
   }
   uploadProductFromFile(data: any) {
     return this.http.post<any>(`${environment.apiUrl}/upload-product/upload-bulk`, { data })
@@ -28,8 +46,8 @@ export class ProductService {
         return res;
       }));
   }
-  getProductFromAPI() {
-    return this.http.get<any>(`${environment.apiUrl}/product/list`)
+  getProductFromAPI(status?: any) {
+    return this.http.get<any>(`${environment.apiUrl}/product/list?active=${status}`)
       .pipe(map(res => {
         this.productList = res.results.data
         return res;

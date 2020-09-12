@@ -25,7 +25,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
   addressCustomer: any;
   showDiv: true;
   customer: true;
-  private selectUndefinedOptionValue: any;
+  public selectUndefinedOptionValue: any;
   customerList: ICustomer[];
   productList: IProduct[];
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -36,8 +36,8 @@ export class InvoiceComponent implements OnInit, OnDestroy {
   constructor(
     private _fb: FormBuilder,
     private invoiceService: InvoiceService,
-    private customerService: CustomerService,
-    private productService: ProductService,
+    public customerService: CustomerService,
+    public productService: ProductService,
     private tostr: ToastrService,
     private modal: InvoiceModalService,
     private eventService: EventService) {
@@ -48,11 +48,11 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     this.eventService.subscribe('addCustomer', (customer) => {
       this.getCustomerList();
     })
-    this.productService.getProducts().subscribe((data: any) => {
+    this.productService.getProducts(1).subscribe((data: any) => {
       this.getProductList(data)
     });
     this.eventService.subscribe('addProduct', (category) => {
-      this.productService.getProducts().subscribe((data: any) => {
+      this.productService.getProducts(1).subscribe((data: any) => {
         this.getProductList(data)
       });
     });
@@ -78,7 +78,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     let totalSum = 0;
     // tslint:disable-next-line:forin
     for (const i in purchases) {
-      const amount = (purchases[i].quantity * purchases[i].product.price_per_unit);
+      const amount = (purchases[i].quantity * purchases[i].product.p_mrp_price);
       control.at(+i).get('amount').setValue(amount, { onlySelf: true, emitEvent: false });
       // update total price
       totalSum += amount;
@@ -105,7 +105,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
 
     let add = true;
     for (const i in control.controls) {
-      if (control.at(+i).get('product').value.name === product.name) {
+      if (control.at(+i).get('product').value.pName === product.pName) {
         // control.controls[i].get('quantity').setValue(control.controls[i].controls.quantity.value + 1);
         control.at(+i).get('quantity').setValue(control.at(+i).get('quantity').value + 1);
         add = false;

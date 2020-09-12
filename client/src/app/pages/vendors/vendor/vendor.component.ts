@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 export class VendorComponent implements OnInit {
 
   vendorList: Vendor[];
-  constructor(private vendorService: VendorsService,
+  constructor(public vendorService: VendorsService,
     private eventService: EventService,
     private tostr: ToastrService) { }
 

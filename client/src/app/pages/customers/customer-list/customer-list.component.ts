@@ -18,7 +18,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<any>;
   customerSearch: any;
   status: any = 1;
-  constructor(private customerService: CustomerService,
+  constructor(public customerService: CustomerService,
     private eventService: EventService,
     private tostr: ToastrService,
     private changeDetectorRef: ChangeDetectorRef) { }

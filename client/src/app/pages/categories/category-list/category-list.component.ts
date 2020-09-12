@@ -19,7 +19,7 @@ export class CategoryListComponent implements OnInit {
   categorySearch: any;
   status: any = 1;
   constructor(private eventService: EventService,
-    private categoryService: CategoryService,
+    public categoryService: CategoryService,
     private tostr: ToastrService,
     private changeDetectorRef: ChangeDetectorRef) { }
 

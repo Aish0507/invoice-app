@@ -1,11 +1,11 @@
 <div class="container">
   <div class="col" style="padding-bottom: 10px; padding-top: 10px">
-    <p *ngIf="loading">
+    <!-- <p *ngIf="loading">
       <i class="fa fa-spinner fa-spin"></i>
-    </p>
+    </p> -->
     <h4 class="text-center">{{title}}</h4>
   </div>
-  {{form.value | json}}
+  <!-- {{form.value | json}} -->
   <form autocomplete="off" class="form-horizontal" [formGroup]="form" (ngSubmit)="saveProduct()" novalidate>
     <input type="hidden" formControlName="totalPrice">
     <div class="row">
@@ -53,19 +53,24 @@
             <input type="text" name="name" class="mb-2 form-control" #name="ngModel" [(ngModel)]="productSearch"
               [ngModelOptions]="{standalone: true}" placeholder="Search">
             <div class="border-bottom p-1 border-light row" style="cursor: pointer;"
-              *ngFor="let product of  obs | async | search:'name':productSearch:productList"
-              (click)="addPurchase(product)">
-              <div class="col-lg-1">
+              *ngFor="let product of  obs | async | search:'name,p_model_no,p_hsn_code,p_color,p_warranty,p_mrp_price,p_sale_price':productSearch:productList">
+              <div class="col-lg-1" (click)="addPurchase(product)">
                 <i class="fas fa-plus-circle text-info mr-5"></i>
               </div>
-              <div class="col-lg-7">
-                <span style="font-size: 20px;" class="text-white mr-5">
-                  {{product?.name}}
+              <div class="col-lg-7" [helipopper]="tpl" helipopperVariation="popper">
+                <span style="font-size: 20px;" class="text-yellow mr-5">
+                  {{product?.pName}}
                 </span>
+                <ng-template #tpl>
+                  <div>
+                    Categorie - {{product.cName}}
+                    Vendor Name - {{product.vName}}
+                  </div>
+                </ng-template>
               </div>
-              <div class="col-lg-4 pt-1">
+              <div class="col-lg-4 pt-1" (click)="addPurchase(product)">
                 <span style="font-size: 20px;" class="badge badge-primary badge-outlined">
-                  {{money(product.price_per_unit)}}</span>
+                  {{money(product.p_mrp_price)}}</span>
               </div>
             </div>
             <hr style="border-width: 1px 0; color: black">
@@ -95,7 +100,7 @@
                   </small>
                   <h5 class="mb-1 text-info">{{purchase.get('product').value.name}}</h5>
                   <small class="text-warning">Product Price:
-                    {{money(purchase.get('product').value.price_per_unit)}}</small>
+                    {{money(purchase.get('product').value.p_mrp_price)}}</small>
                 </div>
                 <p class="mb-1">
                   <input type="number" formControlName="quantity" class="form-control form-control-sm">

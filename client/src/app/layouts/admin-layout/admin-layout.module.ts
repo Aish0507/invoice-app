@@ -26,6 +26,7 @@ import { SearchPipe } from '../../helpers/search.pipe';
 import { VendorsComponent } from '../../pages/vendors/vendors.component';
 import { VendorComponent } from '../../pages/vendors/vendor/vendor.component';
 import { VendorListComponent } from '../../pages/vendors/vendor-list/vendor-list.component';
+import { HelipopperModule } from '@ngneat/helipopper';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { VendorListComponent } from '../../pages/vendors/vendor-list/vendor-list
     NgbModule,
     InvoiceModalModule,
     ReactiveFormsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    HelipopperModule.forRoot(),
   ],
   declarations: [
     DashboardComponent,
