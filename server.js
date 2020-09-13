@@ -9,6 +9,8 @@ const categorieRouter = require('./app-middlewares/categorie');
 const customerRouter = require('./app-middlewares/customer');
 const productHistoryRouter = require('./app-middlewares/product-history');
 const productUploadRouter = require('./app-middlewares/upload-product');
+const saleRouter = require('./app-middlewares/sale');
+
 const app = express();
 const port = 3000;
 
@@ -46,5 +48,6 @@ app.use('/product-history', productHistoryRouter);
 app.use('/upload-product', productUploadRouter);
 app.use('/category', categorieRouter);
 app.use('/customer', customerRouter);
+app.use('/sale', saleRouter);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

@@ -7,6 +7,10 @@ CREATE TABLE user_account(
   username varchar(100) NOT NULL,
   email varchar(100) NOT NULL,
   password varchar(255) NOT NULL,
+  gstin varchar(255) NULL,
+  name varchar(255) NULL,
+  company_name varchar(255) NULL,
+  address varchar(255) NULL,
   PRIMARY KEY (id)
 );
 
@@ -102,21 +106,26 @@ PRIMARY KEY (id)
 CREATE TABLE sale_status(
   id int NOT NULL AUTO_INCREMENT,
   status_name varchar(255) NOT NULL,
+  sale_payment_type varchar(255) NOT NULL,
   PRIMARY KEY (id)
 );
 CREATE TABLE sale(
 id int NOT NULL AUTO_INCREMENT,
+sale_info text NOT NULL,
 time_paid TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 time_created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-sale_amount decimal(8,2) NOT NULL,
-sale_amount_paid decimal(8,2) NOT NULL,
-tax_amount decimal(8,2) NOT NULL,
-customer_id varchar(255) NOT NULL,
-sale_status_id int NOT NULL,
-user_has_role_id int NOT NULL,
+sale_status_id int NULL,
 user_id int NOT NULL,
-  FOREIGN KEY(sale_status_id) REFERENCES `sale_status` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-FOREIGN KEY(user_has_role_id) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+with_gst BOOLEAN,
 FOREIGN KEY(user_id) REFERENCES `user_account` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (id)
 );
+
+
+username:admin
+password:admin1
+email:admin@admin.com
+name:Vikram Jotiba Patil
+company_name:Jobita Technologies
+address:365/1, Janta Colony Road, Kallehol, Belagavi(Belgaum), Karnataka, 591128
+gstin:29DRUPP3312J1Z6

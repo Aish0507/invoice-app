@@ -16,7 +16,7 @@ export class AuthService {
         this.currentUser = this.currentUserSubject.asObservable();
     }
 
-    public get currentUserValue(): User {
+    public get currentUserValue(): any {
         // console.log(this.currentUserSubject.value);
         return this.currentUserSubject.value;
     }
@@ -24,6 +24,7 @@ export class AuthService {
     login(username: string, password: string) {
         return this.http.post<any>(`${environment.apiUrl}/auth/login`, { username, password })
             .pipe(map(user => {
+                console.log(JSON.stringify(user?.results?.data));
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 if (!user.error) {
                     localStorage.setItem('currentUser', JSON.stringify(user?.results?.data));

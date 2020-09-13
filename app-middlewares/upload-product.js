@@ -53,10 +53,11 @@ function productHistoryInBulk(conn, tableName, values, keys, res) {
     var sql = conn.format(statement, insertStatement);
     conn.query(sql, function (err, result) {
         if (err) {
-            return (err);
+            res.status(500).json(error("Something went wrong", res.statusCode));
+            // return (err);
         }
         performRequest('/product/list', 'GET', null, (data) => {
-            // console.log('XXXX', JSON.parse(data).results.data)
+            console.log('XXXX', JSON.parse(data).results.data)
             res
                 .status(201)
                 .json(success("OK", {

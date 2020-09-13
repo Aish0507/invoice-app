@@ -28,6 +28,7 @@ import { VendorComponent } from '../../pages/vendors/vendor/vendor.component';
 import { VendorListComponent } from '../../pages/vendors/vendor-list/vendor-list.component';
 import { HelipopperModule } from '@ngneat/helipopper';
 import { ProductHistoryComponent } from '../../pages/products/product-history/product-history.component';
+import { InvoiceConfirmationComponent } from '../../pages/invoices/invoice-confirmation/invoice-confirmation.component';
 
 @NgModule({
   imports: [
@@ -59,7 +60,8 @@ import { ProductHistoryComponent } from '../../pages/products/product-history/pr
     VendorsComponent,
     VendorComponent,
     VendorListComponent,
-    ProductHistoryComponent
+    ProductHistoryComponent,
+    InvoiceConfirmationComponent
   ],
   entryComponents: [
     ProductComponent,

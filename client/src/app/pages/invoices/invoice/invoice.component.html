@@ -53,8 +53,8 @@
             <input type="text" name="name" class="mb-2 form-control" #name="ngModel" [(ngModel)]="productSearch"
               [ngModelOptions]="{standalone: true}" placeholder="Search">
             <div class="border-bottom p-1 border-light row" style="cursor: pointer;"
-              *ngFor="let product of  obs | async | search:'name,p_model_no,p_hsn_code,p_color,p_warranty,p_mrp_price,p_sale_price':productSearch:productList">
-              <div class="col-lg-1" (click)="addPurchase(product)">
+              *ngFor="let product of  obs | async | search:'name,p_model_no,p_hsn_code,p_color,p_warranty,p_sale_price,p_sale_price':productSearch:productList">
+              <div class="col-lg-1" (click)="product.in_stock !== 0 ? addPurchase(product) : null">
                 <i class="fas fa-plus-circle text-info mr-5"></i>
               </div>
               <div class="col-lg-7" [helipopper]="tpl" helipopperVariation="popper">
@@ -63,14 +63,45 @@
                 </span>
                 <ng-template #tpl>
                   <div>
-                    Categorie - {{product.cName}}
-                    Vendor Name - {{product.vName}}
+                    <div class="row">
+                      <div class="col-lg-4 p-1">
+                        Categorie
+                      </div>
+                      <div class="col-lg-8 p-1">
+                        {{product.cName}}
+                      </div>
+                      <div class="col-lg-4 p-1">
+                        Vendor Name
+                      </div>
+                      <div class="col-lg-8 p-1">
+                        {{product.vName}}
+                      </div>
+                      <div class="col-lg-4 p-1">
+                        Model No
+                      </div>
+                      <div class="col-lg-8 p-1">
+                        {{product.p_model_no}}
+                      </div>
+                      <div class="col-lg-4 p-1">
+                        MRP Price
+                      </div>
+                      <div class="col-lg-8 p-1">
+                        {{product.p_mrp_price}}
+                      </div>
+                      <div class="col-lg-4 p-1">
+                        Stock
+                      </div>
+                      <div class="col-lg-8 p-1">
+                        {{product.in_stock}}
+                      </div>
+                    </div>
                   </div>
                 </ng-template>
               </div>
-              <div class="col-lg-4 pt-1" (click)="addPurchase(product)">
-                <span style="font-size: 20px;" class="badge badge-primary badge-outlined">
-                  {{money(product.p_mrp_price)}}</span>
+              <div class="col-lg-4 pt-1" (click)="product.in_stock !== 0 ? addPurchase(product) : null">
+                <span [ngClass]="{'border border-danger': product.in_stock === 0}" style="font-size: 20px;"
+                  class="badge badge-primary badge-outlined">
+                  {{money(product.p_sale_price)}}</span>
               </div>
             </div>
             <hr style="border-width: 1px 0; color: black">
@@ -85,6 +116,7 @@
               <i class="fas fa-file-invoice-dollar text-success"></i> Total Price
               {{money(form.get('totalPrice').value)}}</strong>&nbsp;
             <button type="button" (click)="resetPurchase()" class="btn btn-warning">Reset</button>
+            <button type="button" class="btn btn-link" (click)="preViewBill()">Preview</button>
             <button type="submit" class="btn btn-success float-right">Submit</button>
           </div>
           <div class="card-body text-info">
@@ -98,9 +130,9 @@
                       <span aria-hidden="true" class="text-danger">×</span>
                     </button>
                   </small>
-                  <h5 class="mb-1 text-info">{{purchase.get('product').value.name}}</h5>
+                  <h5 class="mb-1 text-info">{{purchase.get('product').value.pName}}</h5>
                   <small class="text-warning">Product Price:
-                    {{money(purchase.get('product').value.p_mrp_price)}}</small>
+                    {{money(purchase.get('product').value.p_sale_price)}}</small>
                 </div>
                 <p class="mb-1">
                   <input type="number" formControlName="quantity" class="form-control form-control-sm">
@@ -112,10 +144,60 @@
               </div>
             </a>
           </div>
-          <div class="card-header text-primary">
+          <div class="card-header text-primary text-right">
             <strong>
-              <i class="fas fa-file-invoice-dollar text-success"></i> Total Price
+              <i class="fas fa-file-invoice-dollar text-success"></i> Total Price (before GST)
               {{money(form.get('totalPrice').value)}}</strong>
+            <div class="row p-1">
+              <div class="col-lg-4">CGST</div>
+              <div class="col-lg-8">
+                <input name="cgst" type="number" formControlName="cgst" class="form-control form-control-sm">
+              </div>
+            </div>
+            <div class="row p-1">
+              <div class="col-lg-4">SGST</div>
+              <div class="col-lg-8">
+                <input name="sgst" type="number" formControlName="sgst" class="form-control form-control-sm">
+              </div>
+            </div>
+            <div class="row p-1">
+              <div class="col-lg-4">IGST</div>
+              <div class="col-lg-8">
+                <input name="igst" type="number" formControlName="igst" class="form-control form-control-sm">
+              </div>
+            </div>
+            <strong>
+              <i class="fas fa-file-invoice-dollar text-success"></i>
+              Total Price (GST inclusive)
+              {{(calculateGst((form.get('totalPrice').value)))}}
+            </strong>
+            <div class="row p-1">
+              <div class="col-lg-8">
+                <div class="row">
+                  <div class="col-lg-4">
+                    Discount Type
+                  </div>
+                  <div class="col-lg-4">
+                    <select (ngModelChange)="calculateDiscount($event)"
+                      class="bg-danger form-control w-100 form-control-sm" formControlName="discountType">
+                      <option value="amount">Amount</option>
+                      <option value="percent">%</option>
+                    </select>
+                  </div>
+                  <div class="col-lg-4">
+                    <input name="discount" type="number" formControlName="discount"
+                      class="form-control form-control-sm">
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <strong>
+                  <i class="fas fa-file-invoice-dollar text-success"></i>
+                  Total Price (After discount)
+                  {{calculateDiscount()}}
+                </strong>
+              </div>
+            </div>
           </div>
         </div>
       </div>

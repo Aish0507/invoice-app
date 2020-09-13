@@ -13,6 +13,8 @@ import { EventService } from '../../../services/event.service';
 import { Observable } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { InvoiceConfirmationComponent } from '../invoice-confirmation/invoice-confirmation.component';
+import { SaleService } from 'src/app/services/sale.service';
 @Component({
   selector: 'app-invoice',
   templateUrl: './invoice.component.html',
@@ -40,7 +42,8 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     public productService: ProductService,
     private tostr: ToastrService,
     private modal: InvoiceModalService,
-    private eventService: EventService) {
+    private eventService: EventService,
+    private sale: SaleService) {
   }
 
   ngOnInit() {
@@ -63,7 +66,15 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     this.form = this._fb.group({
       customer: [null, Validators.required],
       totalPrice: 0,
-      purchases: this._fb.array([])
+      purchases: this._fb.array([]),
+      cgst: [null],
+      sgst: [null],
+      igst: [null],
+      totalPriceAfterGST: 0,
+      totalPriceAfterDiscount: 0,
+      discount: 0,
+      discountType: ['amount'],
+      invoiceStatus: ['Pending']
     });
 
     // initialize stream
@@ -78,7 +89,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     let totalSum = 0;
     // tslint:disable-next-line:forin
     for (const i in purchases) {
-      const amount = (purchases[i].quantity * purchases[i].product.p_mrp_price);
+      const amount = (purchases[i].quantity * purchases[i].product.p_sale_price);
       control.at(+i).get('amount').setValue(amount, { onlySelf: true, emitEvent: false });
       // update total price
       totalSum += amount;
@@ -127,32 +138,65 @@ export class InvoiceComponent implements OnInit, OnDestroy {
   resetPurchase(): void {
     // tslint:disable-next-line:no-string-literal
     this.form.controls['totalPrice'].setValue(0);
+    this.form.controls['cgst'].setValue(null);
+    this.form.controls['igst'].setValue(null);
+    this.form.controls['sgst'].setValue(null);
+    this.form.controls['totalPriceAfterGST'].setValue(0);
+    this.form.controls['totalPriceAfterDiscount'].setValue(0);
+    this.form.controls['discount'].setValue(0);
+    // this.form.controls['purchases'].setValue([]);
     // tslint:disable-next-line:no-string-literal
     const control = this.form.controls['purchases'] as FormArray;
     control.controls = [];
+    control.setValue([]);
+    // console.log(control);
+    // this.form.reset();
 
   }
 
   saveProduct() {
     if (this.form.valid && this.form.controls.totalPrice.value > 0) {
+      this.form.get('invoiceStatus').setValue('Paid');
+      const dataSet: any = {}
+      dataSet.sale_info = JSON.stringify(this.form.value);
+      dataSet.with_gst = true;
+      dataSet.user_id = JSON.parse(localStorage.getItem('currentUser')).id;
+      this.sale.insertSale(dataSet).subscribe(ok => {
+        if (ok.error) {
+          this.tostr.error('Error', 'Fail');
+        }
+      }, err => console.log,
+        () => {
+          this.preViewBill()
+          this.tostr.success('Successs', 'Invoice Registered')
+        })
+      // const result: IInvoice = this.form.value as IInvoice;
+      // // Do useful stuff with the gathered data
+      // console.log(result);
+      // this.invoiceService.insertInvoice(result);
+      // this.phoneCustomer = '';
+      // this.addressCustomer = '';
+      // this.showDiv = null;
 
-      const result: IInvoice = this.form.value as IInvoice;
-      // Do useful stuff with the gathered data
-      console.log(result);
-      this.invoiceService.insertInvoice(result);
-      this.phoneCustomer = '';
-      this.addressCustomer = '';
-      this.showDiv = null;
+      // this.tostr.success('Successs', 'Invoice Registered');
+      // this.eventService.broadcast('addInvoice', result);
+      // this.initForm();
 
-      this.tostr.success('Successs', 'Invoice Registered');
-      this.eventService.broadcast('addInvoice', result);
-      this.initForm();
     } else {
       if (this.form.controls.totalPrice.value <= 0) {
         this.tostr.error('Error', 'Invoice not value');
       }
       else (this.tostr.error('Error', 'Invoice No Registered'));
     }
+  }
+  preViewBill() {
+    this.modal.load({
+      id: 'p-history',
+      component: InvoiceConfirmationComponent,
+      mode: 'mobile',
+      modalClass: 'p-history',
+      data: this.form.value
+    });
   }
 
   customerModal() {
@@ -189,6 +233,31 @@ export class InvoiceComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.dataSource) {
       this.dataSource.disconnect();
+    }
+  }
+  calculateGst() {
+    if ((this.form.controls.cgst.value && this.form.controls.sgst.value) || this.form.controls.igst.value) {
+      let cgstAndsgst = this.form.controls.cgst.value + this.form.controls.sgst.value;
+      if (this.form.controls.igst.value) {
+        cgstAndsgst = this.form.controls.igst.value;
+      }
+      this.form.get('totalPriceAfterGST').setValue((this.form.controls.totalPrice.value
+        * cgstAndsgst / 100) + this.form.controls.totalPrice.value);
+      return this.money((this.form.controls.totalPrice.value * cgstAndsgst / 100) + this.form.controls.totalPrice.value);
+    }
+  }
+  calculateDiscount() {
+    this.form.get('totalPriceAfterDiscount').setValue(this.form.controls.totalPriceAfterGST.value)
+    if (this.form.controls.discount.value) {
+      if (this.form.controls.discountType.value === 'amount') {
+        this.form.get('totalPriceAfterDiscount').setValue(this.form.controls.totalPriceAfterGST.value - this.form.controls.discount.value)
+      } else {
+        this.form.get('totalPriceAfterDiscount').setValue(this.form.controls.totalPriceAfterGST.value -
+          (this.form.controls.totalPriceAfterGST.value * (this.form.controls.discount.value / 100)))
+      }
+      return this.money(this.form.controls.totalPriceAfterDiscount.value)
+    } else {
+      return this.money(this.form.controls.totalPriceAfterDiscount.value)
     }
   }
 }

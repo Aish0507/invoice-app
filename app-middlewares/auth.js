@@ -9,13 +9,14 @@ const create = require('../crud/create');
 const { error, success } = require('../helpers/responseapi');
 
 router.post('/register', async (req, res) => {
-  const { username, password, email } = req.body;
+  console.log(req.body);
+  const { username, password, email, name, company_name, address, gstin } = req.body;
   const conn = await connection(dbConfig).catch(e => { });
   const result = await create(
     conn,
     'user_account',
-    ['username', 'password', 'email'],
-    [username, { toString: () => `MD5('${password}')` }, email]
+    ['username', 'password', 'email', 'name', 'company_name', 'address', 'gstin'],
+    [username, { toString: () => `MD5('${password}')` }, email, name, company_name, address, gstin]
   ).catch(e => {
     res.status(500).json(error("Something went wrong", res.statusCode));
   })
@@ -28,6 +29,10 @@ router.post('/register', async (req, res) => {
           id: user.id || null,
           username: user.username || null,
           email: user.email || null,
+          name: user.name || null,
+          company_name: user.company_name || null,
+          address: user.address || null,
+          gstin: user.gstin || null,
         }
       }, res.statusCode));
   } else {
@@ -40,7 +45,7 @@ router.post('/login', async (req, res) => {
   const conn = await connection(dbConfig).catch(e => { });
   const user = await query(
     conn,
-    `SELECT id, username, email FROM user_account WHERE username=? AND password=MD5(?)`,
+    `SELECT * FROM user_account WHERE username=? AND password=MD5(?)`,
     [username, password]
   );
   if (user[0]) {
