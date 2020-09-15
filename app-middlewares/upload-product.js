@@ -22,7 +22,7 @@ router.post('/upload', async (req, res) => {
 });
 router.post('/upload-bulk', async (req, res) => {
     let keys = Object.keys(req.body.data[0]);
-    let values = req.body.data.map(obj => keys.map(key => JSON.stringify(obj[key])));
+    let values = req.body.data.map(obj => keys.map(key => (obj[key])));
     var statement = 'INSERT INTO ?? (' + keys.join() + ') VALUES ?';
     const tableName = 'product';
     const conn = await connection(dbConfig).catch(e => { });

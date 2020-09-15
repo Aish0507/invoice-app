@@ -25,8 +25,8 @@ export class InvoiceService {
 
   deleteInvoice(id: string) {
   }
-  getInvoicesListFromAPI() {
-    return this.http.get<any>(`${environment.apiUrl}/sale/list`)
+  getInvoicesListFromAPI(flag: any) {
+    return this.http.get<any>(`${environment.apiUrl}/sale/list?status=${flag}`)
       .pipe(map(res => {
         return res;
       }));

@@ -63,7 +63,7 @@ router.post('/update', async (req, res) => {
         res.status(500).json(error("Something went wrong", res.statusCode));
     })
     if (result) {
-        console.log(result);
+        // console.log(result);
         const { name, cat_id, p_model_no,
             p_hsn_code, p_color, vendor_id, p_warranty, p_mrp_price, p_sale_price,
             gst_percentage, in_stock, id } = req.body;
@@ -167,14 +167,16 @@ router.post('/update-prd-cnt', async (req, res) => {
         performRequest('/product/update', 'POST', {
             in_stock, id
         }, (data) => {
-            console.log('Updated product cnt', data);
+            console.log('Updated product cnt', p_id, cat_id, vendor_id, p_model_no,
+                p_hsn_code, p_color, p_warranty, p_mrp_price, p_sale_price,
+                gst_percentage);
             performRequest('/product-history/create', 'POST', {
                 name, cat_id, p_model_no,
                 p_hsn_code, p_color, vendor_id, p_warranty, p_mrp_price, p_sale_price,
                 gst_percentage, in_stock,
                 p_id
             }, (dataHist) => {
-                console.log('Updated product cnt hist', dataHist);
+                // console.log('Updated product cnt hist', dataHist);
             });
         });
         res
@@ -203,4 +205,7 @@ router.post('/update-prd-cnt', async (req, res) => {
     //     res.status(500).json(error("Something went wrong", res.statusCode));
     // }
 });
+function replace(str) {
+    return str.replace(/"/g, "");
+}
 module.exports = router;

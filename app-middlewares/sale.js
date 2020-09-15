@@ -38,8 +38,8 @@ router.get('/list', async (req, res) => {
     const limit = req.query.limit || constants.PAGE_LIMIT;
     const page = req.query.page || constants.PAGE_NO
     const offset = (page - 1) * limit
-    const is_active = req.query.active || constants.ACTIVE
-    const list = await query(conn, `SELECT * FROM sale ORDER BY id DESC limit ${limit} OFFSET ${offset}`)
+    const is_active = req.query.status || constants.ACTIVE
+    const list = await query(conn, `SELECT * FROM sale where with_gst = ${is_active} ORDER BY id DESC limit ${limit} OFFSET ${offset}`)
     const totalCount = await query(conn, totalCountQuery('sale'))
     res
         .status(201)

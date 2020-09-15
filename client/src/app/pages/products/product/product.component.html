@@ -1,6 +1,6 @@
 <div class="card mt-5">
     <div class="card-body">
-        <!-- {{productForm.value | json}} -->
+        {{productForm.value | json}}
         <h6 class="text-center">Products</h6>
         <form autocomplete="off" #productForm="ngForm" (ngSubmit)="onSubmit(productForm)">
             <input type="hidden" name="id" #id="ngModel" [(ngModel)]="productService.selectedProduct.id">
