@@ -4,19 +4,12 @@ import { Customer } from './customer';
 
 export class Invoice {
   id: string;
-  invnumber: number;
-  custumername: string;
-
-  // valor total
-  amount: number;
-  status: string;
-  invtotal: number;
-  paymenttype: string;
-
-  // products: Array<string>;
-  // products: string;
-  // products: Iproducts;
-
+  sale_info: any;
+  time_paid: any;
+  time_created: any;
+  sale_status_id: any;
+  user_id: any;
+  with_gst: any;
 }
 
 /* export class Iproducts {

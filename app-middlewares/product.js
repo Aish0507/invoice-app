@@ -63,6 +63,7 @@ router.post('/update', async (req, res) => {
         res.status(500).json(error("Something went wrong", res.statusCode));
     })
     if (result) {
+        console.log(result);
         const { name, cat_id, p_model_no,
             p_hsn_code, p_color, vendor_id, p_warranty, p_mrp_price, p_sale_price,
             gst_percentage, in_stock, id } = req.body;
@@ -149,5 +150,57 @@ router.post('/soft-delete', async (req, res) => {
     } else {
         res.status(500).json(error("Something went wrong", res.statusCode));
     }
+});
+router.post('/update-prd-cnt', async (req, res) => {
+    // const { sale_info, with_gst, user_id } = req.body;
+    // const conn = await connection(dbConfig).catch(e => { });
+    req.body.forEach(element => {
+        const { p_model_no,
+            p_hsn_code, p_color, p_warranty, p_mrp_price, p_sale_price,
+            gst_percentage } = element.product;
+        const in_stock = element.product.in_stock - element.quantity;
+        const id = element.product.pID;
+        const p_id = id;
+        const cat_id = element.product.cID;
+        const vendor_id = element.product.vID;
+        const name = element.product.pName;
+        performRequest('/product/update', 'POST', {
+            in_stock, id
+        }, (data) => {
+            console.log('Updated product cnt', data);
+            performRequest('/product-history/create', 'POST', {
+                name, cat_id, p_model_no,
+                p_hsn_code, p_color, vendor_id, p_warranty, p_mrp_price, p_sale_price,
+                gst_percentage, in_stock,
+                p_id
+            }, (dataHist) => {
+                console.log('Updated product cnt hist', dataHist);
+            });
+        });
+        res
+            .status(201)
+            .json(success("OK", {
+                data: { ...element }
+            }, res.statusCode));
+        // console.log(element.product.pID, element.quantity, element.product.in_stock, element.product.in_stock - element.quantity);
+    });
+    // const result = await create(
+    //     conn,
+    //     'sale',
+    //     ['sale_info', 'with_gst', 'user_id'],
+    //     [sale_info, with_gst, user_id]
+    // ).catch(e => {
+    //     res.status(500).json(error("Something went wrong", res.statusCode));
+    // })
+    // if (result) {
+    //     const [sale = {}] = result;
+    //     res
+    //         .status(201)
+    //         .json(success("OK", {
+    //             data: { ...sale }
+    //         }, res.statusCode));
+    // } else {
+    //     res.status(500).json(error("Something went wrong", res.statusCode));
+    // }
 });
 module.exports = router;

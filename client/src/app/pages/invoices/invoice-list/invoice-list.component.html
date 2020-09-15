@@ -1,37 +1,35 @@
-<div class="content col-md-12 text-center">
-  <div class="card mt-5">
-    <div class="card-body">
-      <h6 class="text-center">List of Invoices</h6>
-      <table class="table table-sm table-hover table-bordered ">
-        <thead class="thead-light">
-          <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Total</th>
-            <th scope="col">Vendor</th>
-            <th scope="col">Date</th>
-            <th scope="col">Purchases</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let invoice of invoiceList">
-            <td>{{invoice.customer.name}} {{invoice.customer.lastname}}</td>
-            <td>{{invoice.totalPrice}}</td>
-            <td>{{invoice.uid}}</td>
-            <td>{{invoice.createdAt}}</td>
-            <td>
-              <li class="list-group-item item" *ngFor="let purchase of invoice.purchases">
-                {{purchase.product.name}}
-              </li>
-            </td>
-            <td>
-              <a class="btn btn-danger text-white" (click)="onDelete(invoice.id)">
-                <i class="fas fa-trash-alt"></i>
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+<div class="card mt-5 content">
+  <div class="card-body">
+    <h6 class="text-center">List of Invoices</h6>
+    <input type="text" name="name" class="mb-2 form-control" #name="ngModel" [(ngModel)]="invoiceSearch"
+      placeholder="Search">
+    <table class="table table-sm table-hover">
+      <thead>
+        <th>#ID</th>
+        <th>Customer Info</th>
+        <th>Total Price</th>
+        <th>Price After Discount</th>
+        <th>Price After GST</th>
+        <th>Action</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let invoice of obs | async | search:'id':invoiceSearch:invoiceList">
+          <td class="desc">{{invoice.id}}</td>
+          <td class="desc">{{invoice?.sale_info.customer}}</td>
+          <td class="desc">{{invoice.totalPrice}}</td>
+          <td class="desc">{{invoice.totalPriceAfterDiscount}}</td>
+          <td class="desc">{{invoice.totalPriceAfterGST}}</td>
+
+          <td>
+            <a class="btn btn-secondary text-white mr-1" (click)="onEdit(invoice)"><i class="far fa-edit"></i>
+            </a>
+            <a class="btn btn-danger text-white" (click)="onDelete(invoice)">
+              <i class="fas fa-trash-alt"></i>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
   </div>
 </div>

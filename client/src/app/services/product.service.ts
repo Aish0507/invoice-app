@@ -67,4 +67,12 @@ export class ProductService {
         return res;
       }));
   }
+  updateProductCnt(data: any) {
+    const dataSet = (data.purchases);
+    return this.http.post<any>(`${environment.apiUrl}/product/update-prd-cnt`, dataSet)
+      .pipe(map(res => {
+        console.log(res);
+        return res;
+      }));
+  }
 }

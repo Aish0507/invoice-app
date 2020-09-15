@@ -149,29 +149,6 @@
               <i class="fas fa-file-invoice-dollar text-success"></i> Total Price (before GST)
               {{money(form.get('totalPrice').value)}}</strong>
             <div class="row p-1">
-              <div class="col-lg-4">CGST</div>
-              <div class="col-lg-8">
-                <input name="cgst" type="number" formControlName="cgst" class="form-control form-control-sm">
-              </div>
-            </div>
-            <div class="row p-1">
-              <div class="col-lg-4">SGST</div>
-              <div class="col-lg-8">
-                <input name="sgst" type="number" formControlName="sgst" class="form-control form-control-sm">
-              </div>
-            </div>
-            <div class="row p-1">
-              <div class="col-lg-4">IGST</div>
-              <div class="col-lg-8">
-                <input name="igst" type="number" formControlName="igst" class="form-control form-control-sm">
-              </div>
-            </div>
-            <strong>
-              <i class="fas fa-file-invoice-dollar text-success"></i>
-              Total Price (GST inclusive)
-              {{(calculateGst((form.get('totalPrice').value)))}}
-            </strong>
-            <div class="row p-1">
               <div class="col-lg-8">
                 <div class="row">
                   <div class="col-lg-4">
@@ -198,6 +175,33 @@
                 </strong>
               </div>
             </div>
+            <ng-container *ngIf="withGst">
+              <div class="row p-1">
+                <div class="col-lg-4">CGST</div>
+                <div class="col-lg-8">
+                  <input name="cgst" type="number" formControlName="cgst" class="form-control form-control-sm">
+                </div>
+              </div>
+              <div class="row p-1">
+                <div class="col-lg-4">SGST</div>
+                <div class="col-lg-8">
+                  <input name="sgst" type="number" formControlName="sgst" class="form-control form-control-sm">
+                </div>
+              </div>
+              <div class="row p-1">
+                <div class="col-lg-4">IGST</div>
+                <div class="col-lg-8">
+                  <input name="igst" type="number" formControlName="igst" class="form-control form-control-sm">
+                </div>
+              </div>
+              <strong>
+                <i class="fas fa-file-invoice-dollar text-success"></i>
+                Total Price (GST inclusive)
+                {{(calculateGst((form.get('totalPrice').value)))}}
+              </strong>
+            </ng-container>
+
+
           </div>
         </div>
       </div>

@@ -14,7 +14,9 @@ import { Observable } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { InvoiceConfirmationComponent } from '../invoice-confirmation/invoice-confirmation.component';
-import { SaleService } from 'src/app/services/sale.service';
+import { SaleService } from '../../../services/sale.service';
+import { Hotkeys } from '../../../services/hotkeys.service';
+import { take } from 'rxjs/operators';
 @Component({
   selector: 'app-invoice',
   templateUrl: './invoice.component.html',
@@ -35,6 +37,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<any>;
   productSearch: any;
   status: any = 1;
+  withGst: boolean;
   constructor(
     private _fb: FormBuilder,
     private invoiceService: InvoiceService,
@@ -43,7 +46,19 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     private tostr: ToastrService,
     private modal: InvoiceModalService,
     private eventService: EventService,
-    private sale: SaleService) {
+    private sale: SaleService,
+    private hotkeys: Hotkeys) {
+    this.withGst = true;
+    hotkeys.addShortcut({ keys: 'shift.+' }).subscribe(ok => {
+      this.withGst = !this.withGst;
+      if (!this.withGst) {
+        this.form.controls['cgst'].setValue(0);
+        this.form.controls['igst'].setValue(0);
+        this.form.controls['sgst'].setValue(0);
+        this.form.controls['totalPriceAfterGST'].setValue(0);
+      }
+      this.form.controls['with_gst'].setValue(this.withGst);
+    });
   }
 
   ngOnInit() {
@@ -74,7 +89,8 @@ export class InvoiceComponent implements OnInit, OnDestroy {
       totalPriceAfterDiscount: 0,
       discount: 0,
       discountType: ['amount'],
-      invoiceStatus: ['Pending']
+      invoiceStatus: ['Pending'],
+      with_gst: this.withGst
     });
 
     // initialize stream
@@ -159,7 +175,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
       this.form.get('invoiceStatus').setValue('Paid');
       const dataSet: any = {}
       dataSet.sale_info = JSON.stringify(this.form.value);
-      dataSet.with_gst = true;
+      dataSet.with_gst = this.withGst;
       dataSet.user_id = JSON.parse(localStorage.getItem('currentUser')).id;
       this.sale.insertSale(dataSet).subscribe(ok => {
         if (ok.error) {
@@ -167,6 +183,9 @@ export class InvoiceComponent implements OnInit, OnDestroy {
         }
       }, err => console.log,
         () => {
+          this.productService.updateProductCnt(this.form.value).subscribe(ok => {
+
+          })
           this.preViewBill()
           this.tostr.success('Successs', 'Invoice Registered')
         })
@@ -236,24 +255,26 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     }
   }
   calculateGst() {
+    // this.form.get('totalPriceAfterGST').setValue(this.form.controls.totalPriceAfterDiscount.value);
     if ((this.form.controls.cgst.value && this.form.controls.sgst.value) || this.form.controls.igst.value) {
       let cgstAndsgst = this.form.controls.cgst.value + this.form.controls.sgst.value;
       if (this.form.controls.igst.value) {
         cgstAndsgst = this.form.controls.igst.value;
       }
-      this.form.get('totalPriceAfterGST').setValue((this.form.controls.totalPrice.value
-        * cgstAndsgst / 100) + this.form.controls.totalPrice.value);
-      return this.money((this.form.controls.totalPrice.value * cgstAndsgst / 100) + this.form.controls.totalPrice.value);
+      this.form.get('totalPriceAfterGST').setValue((this.form.controls.totalPriceAfterDiscount.value
+        * cgstAndsgst / 100) + this.form.controls.totalPriceAfterDiscount.value);
+      return this.money((this.form.controls.totalPriceAfterDiscount.value * cgstAndsgst / 100)
+        + this.form.controls.totalPriceAfterDiscount.value);
     }
   }
   calculateDiscount() {
-    this.form.get('totalPriceAfterDiscount').setValue(this.form.controls.totalPriceAfterGST.value)
+    this.form.get('totalPriceAfterDiscount').setValue(this.form.controls.totalPrice.value)
     if (this.form.controls.discount.value) {
       if (this.form.controls.discountType.value === 'amount') {
-        this.form.get('totalPriceAfterDiscount').setValue(this.form.controls.totalPriceAfterGST.value - this.form.controls.discount.value)
+        this.form.get('totalPriceAfterDiscount').setValue(this.form.controls.totalPrice.value - this.form.controls.discount.value)
       } else {
-        this.form.get('totalPriceAfterDiscount').setValue(this.form.controls.totalPriceAfterGST.value -
-          (this.form.controls.totalPriceAfterGST.value * (this.form.controls.discount.value / 100)))
+        this.form.get('totalPriceAfterDiscount').setValue(this.form.controls.totalPrice.value -
+          (this.form.controls.totalPrice.value * (this.form.controls.discount.value / 100)))
       }
       return this.money(this.form.controls.totalPriceAfterDiscount.value)
     } else {
