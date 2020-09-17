@@ -49,13 +49,16 @@ export class InvoiceListComponent implements OnInit {
   onDelete(id: string) {
     // this.invoiceService.deleteInvoice(id);
   }
-  viewInvoice(invoice) {
+  viewInvoice(invoice: any) {
     this.modal.load({
       id: 'p-history',
       component: InvoiceConfirmationComponent,
       mode: 'mobile',
       modalClass: 'p-history',
-      data: invoice.sale_info
+      data: invoice.sale_info,
+      title: {
+        id: invoice.id, date: invoice.time_paid
+      }
     });
   }
   getInvoiceList() {

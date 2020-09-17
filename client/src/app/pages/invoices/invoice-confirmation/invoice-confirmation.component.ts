@@ -9,6 +9,7 @@ export class InvoiceConfirmationComponent implements OnInit {
 
   constructor() { }
   @Input() modalData: any;
+  @Input() modalProperties: any;
   ownerInformation: any
   printBtn: boolean
   ngOnInit(): void {

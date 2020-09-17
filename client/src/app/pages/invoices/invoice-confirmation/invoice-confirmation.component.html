@@ -1,105 +1,100 @@
-<div class="container">
-    <h4 class="text-center">Invoice</h4>
-    <p class="float-right" *ngIf="printBtn" (click)="print()">Print</p>
-    <div class="card">
-        <div class="card-header">
-            Invoice
-            <strong>#</strong>
-            <span class="float-right"> <strong>Status:</strong> {{modalData?.invoiceStatus}}</span>
-        </div>
-        <div class="card-body">
-            <div class="row mb-4 text-white">
-                <div class="col-sm-6">
-                    <h6 class="mb-3">From:</h6>
-                    <div>
-                        <strong>{{ownerInformation?.company_name}}</strong>
-                    </div>
-                    <div>{{ownerInformation?.name}}</div>
-                    <div>{{ownerInformation?.gstin}}</div>
-                    <div>{{ownerInformation?.address}}</div>
-                </div>
+<div>
+    <header>
+        <h1>Invoice</h1>
+        <address>
+            <p>{{ownerInformation?.company_name}}</p>
+            <p>{{ownerInformation?.name}}</p>
+            <p>{{ownerInformation?.gstin}}</p>
+            <p>
+                {{ownerInformation?.address}}
+            </p>
+        </address>
+        <span><img alt="" src="./assets/img/JobitaTechnologies.png"><input type="file" accept="image/*"></span>
+    </header>
+    <article>
+        <!-- <h1 class="text-black">Recipient</h1> -->
+        <address>
+            <p>{{modalData?.customer?.f_name}} {{modalData?.customer?.l_name}}</p>
+            <p>Address: {{modalData?.customer?.address}}</p>
+            <p>Phone:{{modalData?.customer?.mobile_no}}</p>
+        </address>
+        <table class="meta">
+            <tr>
+                <th><span>Invoice #</span></th>
+                <td><span>{{modalProperties?.title?.id}}</span></td>
+            </tr>
+            <tr>
+                <th><span>Date</span></th>
+                <td><span>{{modalProperties?.title?.date | date: 'short' }}</span></td>
+            </tr>
+        </table>
+        <table class="inventory">
+            <thead>
+                <tr>
+                    <th><span>Item</span></th>
+                    <th><span>Warranty</span></th>
+                    <th><span>Color</span></th>
+                    <th><span>Model No</span></th>
+                    <th><span>Unit Cost</span></th>
+                    <th><span>Quantity</span></th>
+                    <th><span>Price</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of modalData?.purchases; let i = index">
+                    <td><span>{{item?.product?.pName}}</span></td>
+                    <td><span>{{item?.product?.p_warranty}}</span></td>
+                    <td><span data-prefix>₹</span><span>{{item?.product?.p_color}}</span></td>
+                    <td><span>{{item?.product?.p_model_no}}</span></td>
+                    <td><span data-prefix>₹</span><span>{{item?.product?.p_sale_price}}</span></td>
+                    <td><span>{{item?.quantity}}</span></td>
+                    <td><span data-prefix>₹</span><span>{{item?.product?.p_sale_price * item?.quantity}}</span></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="balance">
+            <!-- newww -->
+            <tr>
+                <th>
+                    <span>Subtotal</span>
+                </th>
+                <td class="left"><span data-prefix>₹</span> {{modalData?.totalPrice}}</td>
+            </tr>
+            <tr>
+                <th>
+                    <span>Discount ({{modalData?.discount}}
+                        {{modalData?.discountType === 'amount' ? 'Amount' : '%'}})</span>
+                </th>
+                <td class="left"><span data-prefix>₹</span> {{modalData?.totalPriceAfterDiscount.toFixed(2)}}</td>
+            </tr>
+            <tr *ngIf="modalData?.with_gst">
+                <th>
+                    <strong>CGST ({{modalData?.cgst === null ? 0 : modalData?.cgst}}%)</strong>
+                    <br>
+                    <strong>SGST ({{modalData?.sgst === null ? 0 : modalData?.sgst}}%)</strong>
+                    <br>
+                    <strong>IGST ({{modalData?.igst === null ? 0 : modalData?.igst}}%)</strong>
+                </th>
+                <td class="right"><span data-prefix>₹</span> {{modalData?.totalPriceAfterGST.toFixed(2)}}</td>
+            </tr>
 
-                <div class="col-sm-6">
-                    <h6 class="mb-3">To:</h6>
-                    <div>
-                        <strong>{{modalData?.customer?.f_name}} {{modalData?.customer?.l_name}}</strong>
-                    </div>
-                    <div>Address: {{modalData?.customer?.address}}</div>
-                    <div>43-190 Mikolow, Poland</div>
-                    <div>Phone:{{modalData?.customer?.mobile_no}}</div>
-                </div>
-            </div>
-            <div class="table-responsive-sm">
-                <table class="table text-white">
-                    <thead>
-                        <tr>
-                            <th class="center">#</th>
-                            <th>Item</th>
-                            <th class="right">Warranty</th>
-                            <th class="right">Color</th>
-                            <th class="right">Model No</th>
-                            <th class="right">Unit Cost</th>
-                            <th class="center">Qty</th>
-                            <th class="right">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let item of modalData?.purchases; let i = index">
-                            <td class="center">{{i+1}}</td>
-                            <td class="left strong">{{item?.product?.pName}}</td>
-                            <td class="left strong">{{item?.product?.p_warranty}}</td>
-                            <td class="left strong">{{item?.product?.p_color}}</td>
-                            <td class="left strong">{{item?.product?.p_model_no}}</td>
-                            <td class="right">{{item?.product?.p_sale_price}}</td>
-                            <td class="center">{{item?.quantity}}</td>
-                            <td class="right">{{item?.product?.p_sale_price * item?.quantity}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-sm-5">
-                </div>
-                <div class="col-lg-4 col-sm-5 ml-auto">
-                    <table class="table table-clear text-white">
-                        <tbody>
-                            <tr>
-                                <td class="left">
-                                    <strong>Subtotal</strong>
-                                </td>
-                                <td class="right">{{modalData?.totalPrice}}</td>
-                            </tr>
-                            <tr>
-                                <td class="left">
-                                    <strong>Discount ({{modalData?.discount}}
-                                        {{modalData?.discountType === 'amount' ? 'Amount' : '%'}})</strong>
-                                </td>
-                                <td class="right">{{modalData?.totalPriceAfterDiscount.toFixed(2)}}</td>
-                            </tr>
-                            <tr *ngIf="modalData?.with_gst">
-                                <td class="left">
-                                    <strong>CGST ({{modalData?.cgst === null ? 0 : modalData?.cgst}}%)</strong>
-                                    <br>
-                                    <strong>SGST ({{modalData?.sgst === null ? 0 : modalData?.sgst}}%)</strong>
-                                    <br>
-                                    <strong>IGST ({{modalData?.igst === null ? 0 : modalData?.igst}}%)</strong>
-                                </td>
-                                <td class="right">{{modalData?.totalPriceAfterGST.toFixed(2)}}</td>
-                            </tr>
-
-                            <tr>
-                                <td class="left">
-                                    <strong>Total</strong>
-                                </td>
-                                <td class="right">
-                                    <!-- {{modalData?.with_gst}} -->
-                                    <strong>{{modalData?.with_gst ? modalData?.totalPriceAfterGST.toFixed(2) : modalData?.totalPriceAfterDiscount.toFixed(2)}}</strong>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+            <tr>
+                <th>
+                    <span>Total</span>
+                </th>
+                <td class="right">
+                    <!-- {{modalData?.with_gst}} -->
+                    <span data-prefix>₹</span>
+                    <strong>{{modalData?.with_gst ? modalData?.totalPriceAfterGST.toFixed(2) : modalData?.totalPriceAfterDiscount.toFixed(2)}}</strong>
+                </td>
+            </tr>
+        </table>
+    </article>
 </div>
+
+<!-- <aside>
+    <h1><span>Additional Notes</span></h1>
+    <div>
+        <p>A finance charge of 1.5% will be made on unpaid balances after 30 days.</p>
+    </div>
+</aside> -->

@@ -21,7 +21,7 @@ export interface Properties {
   maxWidth?: string;
   height?: string;
   maxHeight?: string;
-  title?: string;
+  title?: any;
   backdropClass?: string | { [key: string]: any; };
   modalClass?: string | { [key: string]: any; };
   data?: any;

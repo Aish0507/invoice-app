@@ -178,16 +178,17 @@ export class InvoiceComponent implements OnInit, OnDestroy {
       dataSet.with_gst = this.withGst;
       dataSet.user_id = JSON.parse(localStorage.getItem('currentUser')).id;
       this.sale.insertSale(dataSet).subscribe(ok => {
+        console.log(ok);
         if (ok.error) {
           this.tostr.error('Error', 'Fail');
+        } else {
+          this.productService.updateProductCnt(this.form.value).subscribe(data => {
+          })
+          this.preViewBill(ok.results.data.id, ok.results.data.time_paid)
+          this.tostr.success('Successs', 'Invoice Registered')
         }
       }, err => console.log,
         () => {
-          this.productService.updateProductCnt(this.form.value).subscribe(ok => {
-
-          })
-          this.preViewBill()
-          this.tostr.success('Successs', 'Invoice Registered')
         })
       // const result: IInvoice = this.form.value as IInvoice;
       // // Do useful stuff with the gathered data
@@ -208,13 +209,15 @@ export class InvoiceComponent implements OnInit, OnDestroy {
       else (this.tostr.error('Error', 'Invoice No Registered'));
     }
   }
-  preViewBill() {
+  preViewBill(id?: any, date?: any) {
     this.modal.load({
       id: 'p-history',
       component: InvoiceConfirmationComponent,
       mode: 'mobile',
       modalClass: 'p-history',
-      data: this.form.value
+      data: this.form.value,
+      title: { id, date }
+
     });
   }
 
