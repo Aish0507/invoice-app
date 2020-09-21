@@ -11,28 +11,50 @@ const { error, success } = require('../helpers/responseapi');
 const listQuery = require('../query-builders/table-query');
 const totalCountQuery = require('../query-builders/total-count');
 const constants = require("../helpers/constants");
+const alphaNumericIncrementer = require("../helpers/number-generator");
 router.post('/create', async (req, res) => {
     const { sale_info, with_gst, user_id } = req.body;
+    var d = new Date();
+    var date = d.getDate();
+    var month = d.getMonth() + 1;
+    var year = d.getFullYear();
+    var newID = '';
     const conn = await connection(dbConfig).catch(e => { });
+    const lastinsertedID = async () => {
+        const result = await query(conn, `select id, invoice_id from sale order by id desc limit 1;`)
+        return result
+    }
+    lastinsertedID().then(data => {
+        const [lastID = {}] = data;
+        if (lastID.invoice_id) {
+            newID = alphaNumericIncrementer.next(`${lastID.invoice_id}`);
+        } else {
+            newID = alphaNumericIncrementer.next(`${year}/${month}/${date}/00000`);
+        }
+        createData(newID, sale_info, with_gst, user_id, conn, res)
+    })
+});
+async function createData(...args) {
     const result = await create(
-        conn,
+        args[4],
         'sale',
-        ['sale_info', 'with_gst', 'user_id'],
-        [sale_info, with_gst, user_id]
+        ['invoice_id', 'sale_info', 'with_gst', 'user_id'],
+        [args[0], args[1], args[2], args[3]]
     ).catch(e => {
-        res.status(500).json(error("Something went wrong", res.statusCode));
+        args[5].status(500).json(error("Something went wrong", args[5].statusCode));
     })
     if (result) {
+        // console.log(result);
         const [sale = {}] = result;
-        res
+        args[5]
             .status(201)
             .json(success("OK", {
                 data: { ...sale }
-            }, res.statusCode));
+            }, args[5].statusCode));
     } else {
-        res.status(500).json(error("Something went wrong", res.statusCode));
+        args[5].status(500).json(error("Something went wrong", args[5].statusCode));
     }
-});
+}
 router.get('/list', async (req, res) => {
     const conn = await connection(dbConfig).catch(e => { });
     const limit = req.query.limit || constants.PAGE_LIMIT;

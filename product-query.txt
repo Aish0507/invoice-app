@@ -1,6 +1,6 @@
-CREATE DATABASE ps_gst_billing_task;
+CREATE DATABASE gst_billing;
 
-use ps_gst_billing_task;
+use gst_billing;
 
 CREATE TABLE user_account(
   id int NOT NULL AUTO_INCREMENT,
@@ -11,6 +11,8 @@ CREATE TABLE user_account(
   name varchar(255) NULL,
   company_name varchar(255) NULL,
   address varchar(255) NULL,
+  account_no varchar(255) NULL,
+  ifsc_code varchar(255) NULL,
   PRIMARY KEY (id)
 );
 
@@ -57,13 +59,13 @@ CREATE TABLE categorie(
   PRIMARY KEY (id)
 );
 CREATE TABLE product(
-id int NOT NULL AUTO_INCREMENT,
+id int(11) NOT NULL AUTO_INCREMENT,
 name varchar(255) NOT NULL,
-cat_id int NOT NULL,
+cat_id int(11) default NULL,
 p_model_no varchar(255) NULL,
 p_hsn_code varchar(255) NULL,
 p_color varchar(50) NULL,
-vendor_id int NOT NULL,
+vendor_id int(11) default  NULL,
 p_warranty varchar(100) NULL,
 p_mrp_price decimal(8,2) NOT NULL,
 p_sale_price decimal(8,2) NOT NULL,
@@ -71,21 +73,19 @@ gst_percentage decimal(8,2) NULL,
 limited BOOLEAN default true,
 in_stock decimal(8,2) NOT NULL,
 active_for_sale BOOLEAN default true,
-FOREIGN KEY(vendor_id) REFERENCES `vendor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-FOREIGN KEY(cat_id) REFERENCES `categorie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 time_created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 time_updated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (id)
 );
 
 CREATE TABLE product_history(
-id int NOT NULL AUTO_INCREMENT,
+id int(11) NOT NULL AUTO_INCREMENT,
 name varchar(255) NOT NULL,
-cat_id int NOT NULL,
+cat_id int(11) default NULL,
 p_model_no varchar(255) NULL,
 p_hsn_code varchar(255) NULL,
 p_color varchar(50) NULL,
-vendor_id int NOT NULL,
+vendor_id int(11) default NULL,
 p_warranty varchar(100) NULL,
 p_mrp_price decimal(8,2) NOT NULL,
 p_sale_price decimal(8,2) NOT NULL,
@@ -95,8 +95,6 @@ in_stock decimal(8,2) NOT NULL,
 active_for_sale BOOLEAN default true,
 p_id int NOT NULL,
 FOREIGN KEY(p_id) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-FOREIGN KEY(vendor_id) REFERENCES `vendor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-FOREIGN KEY(cat_id) REFERENCES `categorie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 time_created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 time_updated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (id)
@@ -111,6 +109,7 @@ CREATE TABLE sale_status(
 );
 CREATE TABLE sale(
 id int NOT NULL AUTO_INCREMENT,
+invoice_id varchar(150) NOT NULL,
 sale_info text NOT NULL,
 time_paid TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 time_created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -129,3 +128,5 @@ name:Vikram Jotiba Patil
 company_name:Jobita Technologies
 address:365/1, Janta Colony Road, Kallehol, Belagavi(Belgaum), Karnataka, 591128
 gstin:29DRUPP3312J1Z6
+account_no:510101005854444
+ifsc_code:CORP0000059

@@ -12,6 +12,6 @@ const user = process.env.DB_USER || 'root';
 const password = process.env.DB_PASS || 'root';
 
 // Get the Database from Environment or use default
-const database = process.env.DB_DATABASE || 'ps_gst_billing_task';
+const database = process.env.DB_DATABASE || 'gst_billing';
 
 module.exports = { host, user, password, database };

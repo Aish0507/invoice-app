@@ -13,7 +13,7 @@
         <th>Action</th>
       </thead>
       <tbody>
-        <tr *ngFor="let invoice of obs | async | search:'id':invoiceSearch:invoiceList; let i =index">
+        <tr *ngFor="let invoice of obs | async | search:'invoice_id':invoiceSearch:invoiceList; let i =index">
           <td class="desc">{{i+1}}</td>
           <td class="desc">{{invoice?.sale_info.customer?.f_name}} {{invoice?.sale_info.customer?.l_name}}</td>
           <td class="desc">{{invoice?.sale_info?.totalPrice}}</td>

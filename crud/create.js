@@ -12,7 +12,7 @@ module.exports = async (conn, table, columns, values) => {
   try {
     const dataSet = await query(conn, `INSERT INTO ${table}(${columns.join(', ')}) VALUES ${VALUES};`).catch(e => { });
     if (dataSet.insertId) {
-      console.log(dataSet.insertId);
+      console.log('create CRUD', dataSet);
       return await query(conn, `SELECT * FROM ${table} WHERE ID=?`, [dataSet.insertId]);
     }
     return dataSet;

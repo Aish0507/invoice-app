@@ -28,6 +28,7 @@ router.post('/upload-bulk', async (req, res) => {
     const conn = await connection(dbConfig).catch(e => { });
     var insertStatement = [tableName, values];
     var sql = conn.format(statement, insertStatement);
+    console.log(sql)
     conn.query(sql, function (err, result) {
         if (err) {
             return (err);

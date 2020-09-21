@@ -154,6 +154,7 @@ router.post('/soft-delete', async (req, res) => {
 router.post('/update-prd-cnt', async (req, res) => {
     // const { sale_info, with_gst, user_id } = req.body;
     // const conn = await connection(dbConfig).catch(e => { });
+    console.log(req.body);
     req.body.forEach(element => {
         const { p_model_no,
             p_hsn_code, p_color, p_warranty, p_mrp_price, p_sale_price,

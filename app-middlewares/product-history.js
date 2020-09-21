@@ -21,9 +21,9 @@ router.post('/create', async (req, res) => {
             'p_hsn_code', 'p_color', 'vendor_id', 'p_warranty', 'p_mrp_price', 'p_sale_price',
             'gst_percentage', 'in_stock',
             'p_id', 'active_for_sale'],
-        [name, cat_id, p_model_no,
-            p_hsn_code, p_color, vendor_id, p_warranty, p_mrp_price, p_sale_price,
-            gst_percentage, in_stock,
+        [name, cat_id * 1, p_model_no,
+            p_hsn_code, p_color, vendor_id * 1, p_warranty, p_mrp_price * 1, p_sale_price * 1,
+            gst_percentage * 1, in_stock * 1,
             p_id, (active_for_sale === null || active_for_sale === undefined) ? 1 : active_for_sale ? 1 : 0]
     ).catch(e => {
         res.status(500).json(error("Something went wrong [catch]", res.statusCode));

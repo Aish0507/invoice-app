@@ -184,7 +184,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
         } else {
           this.productService.updateProductCnt(this.form.value).subscribe(data => {
           })
-          this.preViewBill(ok.results.data.id, ok.results.data.time_paid)
+          this.preViewBill(ok.results.data.invoice_id, ok.results.data.time_paid)
           this.tostr.success('Successs', 'Invoice Registered')
         }
       }, err => console.log,

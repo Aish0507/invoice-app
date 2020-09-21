@@ -57,7 +57,7 @@ export class InvoiceListComponent implements OnInit {
       modalClass: 'p-history',
       data: invoice.sale_info,
       title: {
-        id: invoice.id, date: invoice.time_paid
+        id: invoice.invoice_id, date: invoice.time_paid
       }
     });
   }

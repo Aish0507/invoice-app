@@ -24,7 +24,11 @@
                     <tr
                         *ngFor="let vendor of obs | async | search:'vendor_id,name,mobile_no,address':vendorSearch:vendorList">
                         <td class="desc">{{vendor.vendor_id}}</td>
-                        <td class="desc">{{vendor.name}}</td>
+                        <td class="desc" [helipopper]="moreVendorInfo" helipopperVariation="popper">
+                            <span class="text-yellow">
+                                {{vendor.name}}
+                            </span>
+                        </td>
                         <td class="desc">{{vendor.mobile_no}}</td>
                         <td class="desc">{{vendor.address}}</td>
                         <td class="desc" [ngClass]="{'text-success': vendor.is_active,
@@ -37,6 +41,16 @@
                                 <i class="fas fa-trash-alt"></i>
                             </a>
                         </td>
+                        <ng-template #moreVendorInfo>
+                            <div class="row">
+                                <!-- <div class="col-lg-4 p-1">ID</div> -->
+                                <div class="col-lg-12 p-1">
+                                    <strong>
+                                        {{vendor.id}}
+                                    </strong>
+                                </div>
+                            </div>
+                        </ng-template>
                     </tr>
                 </tbody>
             </table>
